@@ -1,0 +1,116 @@
+code/zigbee.o: ../code/zigbee.c ../code/headfile.h \
+ c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x.h \
+ c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Core/core_riscv.h \
+ c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/User/system_ch32v30x.h \
+ c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/User/ch32v30x_conf.h \
+ c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_adc.h \
+ c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x.h \
+ c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_bkp.h \
+ c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_can.h \
+ c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_crc.h \
+ c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_dac.h \
+ c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_dbgmcu.h \
+ c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_dma.h \
+ c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_exti.h \
+ c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_flash.h \
+ c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_fsmc.h \
+ c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_gpio.h \
+ c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_i2c.h \
+ c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_iwdg.h \
+ c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_pwr.h \
+ c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_rcc.h \
+ c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_rtc.h \
+ c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_sdio.h \
+ c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_spi.h \
+ c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_tim.h \
+ c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_usart.h \
+ c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_wwdg.h \
+ c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/User/ch32v30x_it.h \
+ c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Debug/debug.h \
+ c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_misc.h \
+ ../code/timer.h ../code/adc_going.h ../code/hc_sr04.h ../code/humidity.h \
+ ../code/temperature.h ../code/aht20.h ../code/MYI2C.h \
+ ../code/pump_ctrl.h ../code/encoder.h ../code/zigbee.h \
+ ../code/JLNU_OLED.h
+
+../code/headfile.h:
+
+c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x.h:
+
+c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Core/core_riscv.h:
+
+c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/User/system_ch32v30x.h:
+
+c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/User/ch32v30x_conf.h:
+
+c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_adc.h:
+
+c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x.h:
+
+c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_bkp.h:
+
+c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_can.h:
+
+c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_crc.h:
+
+c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_dac.h:
+
+c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_dbgmcu.h:
+
+c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_dma.h:
+
+c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_exti.h:
+
+c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_flash.h:
+
+c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_fsmc.h:
+
+c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_gpio.h:
+
+c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_i2c.h:
+
+c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_iwdg.h:
+
+c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_pwr.h:
+
+c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_rcc.h:
+
+c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_rtc.h:
+
+c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_sdio.h:
+
+c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_spi.h:
+
+c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_tim.h:
+
+c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_usart.h:
+
+c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_wwdg.h:
+
+c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/User/ch32v30x_it.h:
+
+c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Debug/debug.h:
+
+c:/Users/kout/Desktop/Qiancomputer/CH32V307VCT_1/Peripheral/inc/ch32v30x_misc.h:
+
+../code/timer.h:
+
+../code/adc_going.h:
+
+../code/hc_sr04.h:
+
+../code/humidity.h:
+
+../code/temperature.h:
+
+../code/aht20.h:
+
+../code/MYI2C.h:
+
+../code/pump_ctrl.h:
+
+../code/encoder.h:
+
+../code/zigbee.h:
+
+../code/JLNU_OLED.h:

@@ -1,0 +1,20 @@
+{
+	"details": [
+		{
+			"file": "code/water_speed.c",
+			"encoding": "utf8"
+		},
+		{
+			"file": "User/main.c",
+			"encoding": "utf8"
+		},
+		{
+			"file": "code/timer.c",
+			"encoding": "utf8"
+		},
+		{
+			"file": "code/esp32_concert.c",
+			"encoding": "utf8"
+		}
+	]
+}

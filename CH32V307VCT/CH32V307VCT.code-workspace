@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "D:/ESP32/水宝"
+		},
+		{
+			"path": "../网站"
+		},
+		{
+			"path": "../CH32V307VCT_1"
+		}
+	],
+	"settings": {
+		"git.ignoreLimitWarning": true
+	}
+}

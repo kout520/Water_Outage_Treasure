@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>水宝 - 水质实时监测</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            padding: 10px;
+            background: linear-gradient(135deg, #0c3483 0%, #1e5fa8 50%, #2196F3 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: rgba(255,255,255,0.97);
+            padding: 25px; border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            max-width: 1500px; margin: 0 auto;
+        }
+        .header { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 10px; }
+        .header .logo { font-size: 48px; }
+        h1 { color: #1a237e; font-size: 28px; }
+        .top-bar {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px 20px; border-radius: 10px; margin: 10px 0;
+            font-weight: bold; font-size: 14px; flex-wrap: wrap; gap: 10px;
+        }
+        .connected    { background: #d4edda; color: #155724; }
+        .disconnected { background: #f8d7da; color: #721c24; }
+        .connecting   { background: #fff3cd; color: #856404; }
+        button {
+            background: #1976D2; color: #fff; border: none;
+            padding: 10px 22px; border-radius: 6px; cursor: pointer;
+            font-size: 14px; font-weight: bold; transition: all 0.2s;
+        }
+        button:hover { filter: brightness(1.1); transform: translateY(-1px); }
+        button:disabled { background: #90a4ae; cursor: not-allowed; }
+
+        /* 阀门按钮 */
+        .valve-section {
+            display: flex; align-items: center; gap: 15px; padding: 12px 20px;
+            background: #f5f5f5; border-radius: 10px; margin: 10px 0;
+        }
+        .valve-label { font-weight: bold; font-size: 15px; color: #333; }
+        .valve-status { font-size: 14px; padding: 6px 14px; border-radius: 20px; font-weight: bold; }
+        .valve-open { background: #d4edda; color: #155724; }
+        .valve-closed { background: #f8d7da; color: #721c24; }
+        .btn-close { background: #c62828; font-size: 16px; padding: 12px 30px; }
+        .btn-open  { background: #2e7d32; font-size: 16px; padding: 12px 30px; }
+
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px; margin: 15px 0;
+        }
+        .data-card {
+            background: #fff; padding: 18px 14px; border-radius: 12px;
+            text-align: center; box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            transition: all 0.3s; border-top: 4px solid #ccc;
+        }
+        .data-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
+        .data-card .icon { font-size: 30px; margin-bottom: 6px; }
+        .data-card .label { font-size: 12px; color: #666; margin-bottom: 4px; font-weight: bold; }
+        .data-card .value { font-size: 32px; font-weight: bold; color: #1a237e; }
+        .data-card .unit { font-size: 12px; color: #999; margin-top: 2px; }
+        .data-card .sub { font-size: 11px; color: #aaa; margin-top: 2px; }
+        .card-tds  { border-top-color: #FF6F00; } .card-tds  .value { color: #E65100; }
+        .card-ec   { border-top-color: #0277BD; } .card-ec   .value { color: #01579B; }
+        .card-temp { border-top-color: #D32F2F; } .card-temp .value { color: #B71C1C; }
+        .card-hard { border-top-color: #6A1B9A; } .card-hard .value { color: #4A148C; }
+        .card-sal  { border-top-color: #00838F; } .card-sal  .value { color: #006064; }
+        .card-sg   { border-top-color: #2E7D32; } .card-sg   .value { color: #1B5E20; }
+        .card-flow { border-top-color: #1565C0; } .card-flow .value { color: #0D47A1; }
+        .card-cost { border-top-color: #C62828; } .card-cost .value { color: #B71C1C; }
+        .pulse { animation: pulse 0.5s ease-in-out; }
+        @keyframes pulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.04);} }
+
+        /* 日历 */
+        .section-title { font-size: 18px; font-weight: bold; color: #1a237e; margin: 20px 0 10px; }
+        .calendar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin: 10px 0; }
+        .cal-header { text-align: center; font-weight: bold; font-size: 12px; color: #666; padding: 8px 0; }
+        .cal-day {
+            background: #fff; border-radius: 8px; padding: 8px; text-align: center;
+            min-height: 66px; font-size: 13px; box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            cursor: default; transition: all 0.2s;
+        }
+        .cal-day:hover { background: #e3f2fd; transform: scale(1.03); }
+        .cal-day .day-num { font-weight: bold; color: #333; }
+        .cal-day .day-usage { font-size: 10px; color: #1976D2; margin-top: 2px; }
+        .cal-day.today { border: 2px solid #1976D2; background: #e3f2fd; }
+        .cal-day.empty { background: #f9f9f9; }
+        .cal-month { text-align: center; font-size: 16px; color: #333; margin: 5px 0; }
+
+        .last-update { text-align: center; color: #999; font-size: 13px; margin: 15px 0; }
+        .footer { text-align: center; color: #bbb; font-size: 11px; margin-top: 15px; }
+
+        /* 漏水弹窗 */
+        .leak-overlay {
+            display: none; position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(180,0,0,0.95); z-index: 10000;
+            justify-content: center; align-items: center;
+            animation: fadeIn 0.3s;
+        }
+        .leak-overlay.show { display: flex; }
+        @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+        .leak-box {
+            background: #fff; padding: 50px 60px; border-radius: 20px;
+            text-align: center; max-width: 480px;
+            box-shadow: 0 20px 60px rgba(255,0,0,0.5);
+            animation: shake 0.5s ease-in-out;
+        }
+        @keyframes shake { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-10px)} 40%,80%{transform:translateX(10px)} }
+        .leak-icon { font-size: 90px; margin-bottom: 15px; }
+        .leak-title { font-size: 36px; font-weight: bold; color: #c62828; margin-bottom: 15px; }
+        .leak-msg { font-size: 18px; color: #555; margin-bottom: 15px; line-height: 1.6; }
+        .leak-time { font-size: 14px; color: #999; margin-bottom: 25px; }
+        .leak-btn {
+            background: #c62828; color: #fff; border: none;
+            padding: 14px 40px; border-radius: 8px; font-size: 18px;
+            font-weight: bold; cursor: pointer;
+        }
+        .leak-btn:hover { background: #b71c1c; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <span class="logo">💧</span>
+        <h1>水宝 - 水质实时监测</h1>
+    </div>
+
+    <div id="connectionStatus" class="top-bar connecting">
+        <span>🟡 正在连接服务器...</span>
+        <span><button onclick="reconnectMQTT()">重新连接</button></span>
+    </div>
+
+    <!-- 阀门控制 -->
+    <div class="valve-section">
+        <span class="valve-label">🚿 远程水闸：</span>
+        <span class="valve-status valve-open" id="valveStatus">● 开启</span>
+        <button class="btn-close" onclick="ctrlValve(0)" id="btnClose">🔒 紧急断水</button>
+        <button class="btn-open" onclick="ctrlValve(1)" id="btnOpen">🔓 恢复供水</button>
+    </div>
+
+    <div class="last-update">最后更新: <strong id="lastUpdate">--</strong></div>
+
+    <!-- 数据卡片 -->
+    <div class="data-grid">
+        <div class="data-card card-tds" id="card-tds">
+            <div class="icon">🔬</div><div class="label">TDS</div>
+            <div class="value" id="v-tds">--</div><div class="unit">ppm</div><div class="sub" id="s-tds"></div>
+        </div>
+        <div class="data-card card-ec" id="card-ec">
+            <div class="icon">⚡</div><div class="label">电导率</div>
+            <div class="value" id="v-cond">--</div><div class="unit">us/cm</div><div class="sub" id="s-cond"></div>
+        </div>
+        <div class="data-card card-temp" id="card-temp">
+            <div class="icon">🌡️</div><div class="label">温度</div>
+            <div class="value" id="v-temp">--</div><div class="unit">℃</div><div class="sub" id="s-temp"></div>
+        </div>
+        <div class="data-card card-hard" id="card-hard">
+            <div class="icon">🪨</div><div class="label">硬度</div>
+            <div class="value" id="v-hard">--</div><div class="unit">ppm</div><div class="sub" id="s-hard"></div>
+        </div>
+        <div class="data-card card-sal" id="card-sal">
+            <div class="icon">🧂</div><div class="label">盐度</div>
+            <div class="value" id="v-sal">--</div><div class="unit">%</div><div class="sub" id="s-sal"></div>
+        </div>
+        <div class="data-card card-sg" id="card-sg">
+            <div class="icon">⚖️</div><div class="label">比重</div>
+            <div class="value" id="v-sg">--</div><div class="unit">SG</div><div class="sub" id="s-sg"></div>
+        </div>
+        <div class="data-card card-flow" id="card-flow">
+            <div class="icon">💧</div><div class="label">瞬时流量</div>
+            <div class="value" id="v-flow">--</div><div class="unit">L/min</div><div class="sub" id="s-flow"></div>
+        </div>
+        <div class="data-card card-cost" id="card-cost">
+            <div class="icon">💰</div><div class="label">月水费</div>
+            <div class="value" id="v-cost">--</div><div class="unit">元</div><div class="sub" id="s-cost"></div>
+        </div>
+    </div>
+
+    <!-- 每日用水日历 -->
+    <div class="section-title">📅 每日用水统计 (升)</div>
+    <div class="cal-month" id="calMonth"></div>
+    <div class="calendar" id="calGrid"></div>
+    <div style="text-align:center;margin-top:8px;">
+        <span style="font-size:13px;color:#666;">本月累计: <strong id="monthTotal">0</strong> L | 日均: <strong id="dayAvg">0</strong> L</span>
+    </div>
+
+    <div class="footer">MQTT: 159.75.161.237 | water/quality | 费率: 0.35分/L</div>
+</div>
+
+<!-- 漏水弹窗 -->
+<div class="leak-overlay" id="leakOverlay">
+    <div class="leak-box">
+        <div class="leak-icon">🚨</div>
+        <div class="leak-title">⚠️ 漏水警报！</div>
+        <div class="leak-msg">系统检测到异常水流<br>请立即检查管道和设备！</div>
+        <div class="leak-time" id="leakTime"></div>
+        <button class="leak-btn" onclick="dismissLeak()">我已处理</button>
+    </div>
+</div>
+
+<script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+<script>
+(function() {
+    var client = null;
+    var valveOpen = true;  // 当前阀门状态
+
+    // ========== 每日用水存储 ==========
+    var STORAGE_KEY = 'water_daily_usage';
+    function loadDaily() {
+        try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
+        catch(e) { return {}; }
+    }
+    function saveDaily(data) { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
+
+    function todayKey() {
+        var d = new Date();
+        return d.getFullYear() + '-' + fmt2(d.getMonth()+1) + '-' + fmt2(d.getDate());
+    }
+    function fmt2(n) { return n < 10 ? '0'+n : ''+n; }
+
+    // 更新今日用水量
+    function updateDaily(totalFlow) {
+        var daily = loadDaily();
+        var key = todayKey();
+        // 记录当日首次total_flow作为基准，差值为当日用水
+        if (!daily['_base_'+key]) {
+            daily['_base_'+key] = totalFlow;
+        }
+        daily[key] = Math.max(0, totalFlow - daily['_base_'+key]);
+        saveDaily(daily);
+        renderCalendar();
+    }
+
+    // ========== 日历渲染 ==========
+    function renderCalendar() {
+        var now = new Date();
+        var y = now.getFullYear(), m = now.getMonth();
+        document.getElementById('calMonth').textContent = y + '年' + (m+1) + '月';
+
+        var daily = loadDaily();
+        var firstDay = new Date(y, m, 1).getDay(); // 0=Sun
+        var daysInMonth = new Date(y, m+1, 0).getDate();
+        var today = now.getDate();
+        var grid = document.getElementById('calGrid');
+
+        var html = '';
+        var headers = ['日','一','二','三','四','五','六'];
+        for (var i = 0; i < 7; i++) html += '<div class="cal-header">'+headers[i]+'</div>';
+
+        // 前置空白
+        for (var i = 0; i < firstDay; i++) html += '<div class="cal-day empty"></div>';
+
+        
+        var monthTotal = 0, dayCount = 0;
+        for (var d = 1; d <= daysInMonth; d++) {
+            var key = y + '-' + fmt2(m+1) + '-' + fmt2(d);
+            var usage = daily[key] || 0;
+            if (usage > 0) { monthTotal += usage; dayCount++; }
+            var usageStr = usage > 0 ? (usage >= 1000 ? (usage/1000).toFixed(1)+'T' : usage.toFixed(1)+'L') : '';
+            var cls = 'cal-day' + (d === today ? ' today' : '');
+            html += '<div class="'+cls+'"><div class="day-num">'+d+'</div><div class="day-usage">'+usageStr+'</div></div>';
+        }
+        grid.innerHTML = html;
+
+        document.getElementById('monthTotal').textContent = monthTotal.toFixed(1);
+        document.getElementById('dayAvg').textContent = (dayCount > 0 ? (monthTotal/dayCount).toFixed(1) : '0');
+    }
+
+    // ========== MQTT ==========
+    function connect() {
+        if (client && client.connected) { setStatus('✅ 在线','connected'); return; }
+        setStatus('🟡 正在连接...','connecting');
+
+        var url = window.location.protocol === 'https:'
+            ? 'wss://159.75.161.237:8084/mqtt'
+            : 'ws://159.75.161.237:8083/mqtt';
+
+        client = mqtt.connect(url, {
+            clientId: 'water_web_' + Math.random().toString(16).substr(2,8),
+            clean: true, reconnectPeriod: 3000, connectTimeout: 5000
+        });
+
+        client.on('connect', function() {
+            console.log('MQTT已连接');
+            setStatus('✅ 在线','connected');
+            client.subscribe('water/quality');
+            client.subscribe('water/leak');
+        });
+
+        client.on('message', function(topic, msg) {
+            try {
+                var data = JSON.parse(msg.toString());
+                if (topic === 'water/quality') {
+                    updateAll(data);
+                    updateDaily(data.total || 0);
+                } else if (topic === 'water/leak') {
+                    handleLeak(data.leak);
+                }
+            } catch(e) { console.log('JSON err: '+e.message); }
+        });
+
+        client.on('error', function() { setStatus('❌ 错误','disconnected'); });
+        client.on('close', function() { setStatus('🔴 离线','disconnected'); });
+        client.on('reconnect', function() { setStatus('🟡 重连中...','connecting'); });
+    }
+
+    function setStatus(msg, cls) {
+        var el = document.getElementById('connectionStatus');
+        el.innerHTML = '<span>'+msg+'</span><span><button onclick="reconnectMQTT()">重新连接</button></span>';
+        el.className = 'top-bar ' + cls;
+    }
+
+    window.reconnectMQTT = function() {
+        if (client) { client.end(true); client = null; }
+        setTimeout(connect, 500);
+    };
+
+    // ========== 阀门控制 ==========
+    window.ctrlValve = function(action) {
+        if (!client || !client.connected) { alert('未连接服务器!'); return; }
+        var payload = JSON.stringify({valve: action});
+        client.publish('water/ctrl', payload);
+        console.log('阀门指令: ' + payload);
+    };
+
+    // ========== 数据显示 ==========
+    function updateAll(d) {
+        updateCard('tds',  d.tds,  null, statusTDS(d.tds));
+        updateCard('cond', d.cond, null, statusCond(d.cond));
+        updateCard('temp', d.temp, null, statusTemp(d.temp));
+        updateCard('hard', d.hard, null, statusHard(d.hard));
+        updateCard('sal',  d.sal,  null, '');
+        updateCard('sg',   d.sg,   null, '');
+        updateCard('flow', d.flow, null, '');
+        updateCard('cost', d.cost, null, '');
+        document.getElementById('lastUpdate').textContent = new Date().toLocaleString('zh-CN');
+    }
+
+    function updateCard(id, val, unit, status) {
+        var vEl = document.getElementById('v-'+id);
+        var sEl = document.getElementById('s-'+id);
+        var card = document.getElementById('card-'+id);
+        if (vEl) vEl.textContent = (val != null) ? val : '--';
+        if (sEl) sEl.textContent = status;
+        if (card) { card.classList.add('pulse');
+            setTimeout(function(){ card.classList.remove('pulse'); }, 500); }
+    }
+
+    function statusTDS(v) {
+        if (v==null) return ''; if (v<50) return '✅ 纯净'; if (v<150) return '✅ 良好';
+        if (v<300) return '⚠️ 一般'; if (v<600) return '⚠️ 偏高'; return '🔴 超标';
+    }
+    function statusCond(v) {
+        if (v==null) return ''; if (v<100) return '✅ 纯净'; if (v<300) return '✅ 良好';
+        if (v<600) return '⚠️ 一般'; if (v<1200) return '⚠️ 偏高'; return '🔴 超标';
+    }
+    function statusTemp(v) {
+        if (v==null) return ''; if (v<10) return '🔵 偏冷'; if (v<30) return '✅ 适宜';
+        if (v<40) return '⚠️ 偏热'; return '🔴 过热';
+    }
+    function statusHard(v) {
+        if (v==null) return ''; if (v<60) return '✅ 软水'; if (v<120) return '✅ 中硬';
+        if (v<180) return '⚠️ 硬水'; return '🔴 超硬';
+    }
+
+    function handleLeak(alarm) {
+        var overlay = document.getElementById('leakOverlay');
+        if (alarm === 1) {
+            document.getElementById('leakTime').textContent = '触发时间: '+new Date().toLocaleString('zh-CN');
+            overlay.classList.add('show');
+        } else { overlay.classList.remove('show'); }
+    }
+    window.dismissLeak = function() {
+        document.getElementById('leakOverlay').classList.remove('show');
+    };
+
+    // ========== 启动 ==========
+    renderCalendar();
+    setTimeout(connect, 1000);
+})();
+</script>
+</body>
+</html>
