@@ -1,6 +1,7 @@
 #ifndef _water_speed_
 #define _water_speed_
 
+<<<<<<< HEAD
 // 娴侀噺璁¤緭鍏ユ崟鑾峰垵濮嬪寲
 void Input_Capture_Init(u16 arr, u16 psc);
 
@@ -19,3 +20,13 @@ void Leak_SetNormalFlow(float f);
 float Leak_GetNormalFlow(void);
 
 #endif
+=======
+void Input_Capture_Init( u16 arr, u16 psc );
+
+extern u8 water_speedflage;
+extern float total_flow;           // 总流量(L)
+extern uint32_t total_pulses ;        // 总脉冲计数
+
+#endif
+
+>>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb

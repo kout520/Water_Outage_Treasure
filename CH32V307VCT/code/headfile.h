@@ -16,10 +16,15 @@
 #include "fun.h"
 #include "tjc_usart_hmi.h"
 #include"water_speed.h"
+<<<<<<< HEAD
 #include"water_quality.h"
 #include"esp32_concert.h"
 #include"adc_going.h"
 #include"zigbee.h"
+=======
+#include"esp32_concert.h"
+#include"adc_going.h"
+>>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
 
 #endif
 

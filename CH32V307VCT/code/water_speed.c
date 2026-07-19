@@ -1,5 +1,6 @@
 #include "headfile.h"
 
+<<<<<<< HEAD
 // ============================================================
 // æµé‡è®¡: F=98*Q (F:é¢‘çŽ‡Hz, Q:æµé‡L/min)
 // æ¯å‡è„‰å†²æ•° = 98*60 = 5880, æµé‡èŒƒå›´: 0.3~5 L/min
@@ -171,12 +172,146 @@ void TIM1_CC_IRQHandler(void)
     }
 
     if (TIM_GetITStatus(TIM1, TIM_IT_CC2) != RESET)
+=======
+// Ë®Á÷´«¸ÐÆ÷²ÎÊý£º450¸öÂö³å=1ÉýË®
+#define PULSES_PER_LITER 450
+
+// È«¾Ö±äÁ¿ÓÃÓÚ¼ÆËãÁ÷ËÙºÍÁ÷Á¿
+uint32_t total_pulses = 0;        // ×ÜÂö³å¼ÆÊý
+uint32_t last_capture_time = 0;   // ÉÏÒ»´Î²¶»ñÊ±¼ä
+float flow_rate = 0.0;            // Á÷ËÙ(L/min)
+float total_flow = 0.0;           // ×ÜÁ÷Á¿(L)
+u8 water_speedflage = 0;
+uint32_t time_interval;
+
+
+char test[100];
+void Input_Capture_Init( u16 arr, u16 psc )
+{
+	GPIO_InitTypeDef GPIO_InitStructure={0};
+	TIM_ICInitTypeDef TIM_ICInitStructure={0};
+	TIM_TimeBaseInitTypeDef TIM_TimeBaseInitStructure={0};
+	NVIC_InitTypeDef NVIC_InitStructure={0};
+
+	RCC_APB2PeriphClockCmd( RCC_APB2Periph_GPIOA | RCC_APB2Periph_TIM1, ENABLE );
+
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
+	GPIO_Init( GPIOA, &GPIO_InitStructure);
+	GPIO_ResetBits( GPIOA, GPIO_Pin_8 );
+
+	TIM_TimeBaseInitStructure.TIM_Period = arr;
+	TIM_TimeBaseInitStructure.TIM_Prescaler = psc;
+	TIM_TimeBaseInitStructure.TIM_ClockDivision = TIM_CKD_DIV1;
+	TIM_TimeBaseInitStructure.TIM_CounterMode = TIM_CounterMode_Up;
+	TIM_TimeBaseInitStructure.TIM_RepetitionCounter =  0x00;
+	TIM_TimeBaseInit( TIM1, &TIM_TimeBaseInitStructure);
+
+	TIM_ICInitStructure.TIM_Channel = TIM_Channel_1;
+	TIM_ICInitStructure.TIM_ICPrescaler = TIM_ICPSC_DIV1;
+	TIM_ICInitStructure.TIM_ICFilter = 0x00;
+	TIM_ICInitStructure.TIM_ICPolarity = TIM_ICPolarity_Rising;
+	TIM_ICInitStructure.TIM_ICSelection = TIM_ICSelection_DirectTI;
+
+	TIM_PWMIConfig( TIM1, &TIM_ICInitStructure );
+
+	NVIC_InitStructure.NVIC_IRQChannel = TIM1_CC_IRQn;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+	NVIC_Init(&NVIC_InitStructure);
+
+	TIM_ITConfig( TIM1, TIM_IT_CC1 | TIM_IT_CC2, ENABLE );
+
+	TIM_SelectInputTrigger( TIM1, TIM_TS_TI1FP1 );
+	TIM_SelectSlaveMode( TIM1, TIM_SlaveMode_Reset );
+	TIM_SelectMasterSlaveMode( TIM1, TIM_MasterSlaveMode_Enable );
+	TIM_Cmd( TIM1, ENABLE );
+}
+
+
+
+/*********************************************************************
+ * @fn      TIM1_CC_IRQHandler
+ *
+ * @brief   This function handles TIM1  Capture Compare Interrupt exception.
+ *
+ * @return  none
+ */
+void TIM1_CC_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
+void TIM1_CC_IRQHandler(void)
+{
+    if( TIM_GetITStatus( TIM1, TIM_IT_CC1 ) != RESET )
+    {
+        uint32_t current_time = TIM_GetCapture1(TIM1);
+        
+        // Ê¹ÓÃtimer_cnt¼ÆËãÊ±¼ä¼ä¸ô£¨¿¼ÂÇtimer_cntÒç³ö£©
+        static uint32_t last_timer_cnt = 0;
+        uint32_t current_timer_cnt = timer_cnt;
+        uint32_t timer_interval;
+        
+        if(current_timer_cnt >= last_timer_cnt)
+        {
+            timer_interval = current_timer_cnt - last_timer_cnt;
+        }
+        else
+        {
+            // ´¦Àítimer_cntÒç³ö
+            timer_interval = (0xFFFFFFFF - last_timer_cnt) + current_timer_cnt;
+        }
+        
+        // ¼ÆËãÊ±¼ä¼ä¸ô£¨¿¼ÂÇ¶¨Ê±Æ÷Òç³ö£©
+  
+        if(current_time >= last_capture_time)
+        {
+            time_interval = current_time - last_capture_time;
+        }
+        else
+        {
+            time_interval = (0xFFFF - last_capture_time) + current_time;
+        }
+        
+        // ¸üÐÂÂö³å¼ÆÊý
+        total_pulses++;
+        
+        // ¼ÆËã×ÜÁ÷Á¿£¨Éý£©
+        total_flow = (float)total_pulses / PULSES_PER_LITER;
+        
+        // ¼ÆËãÁ÷ËÙ£¨Éý/·ÖÖÓ£©- Ê¹ÓÃtimer_cntÌá¹©µÄÊ±¼ä»ù×¼
+        if(timer_interval > 0)
+        {
+            water_speedflage = 0;
+            // timer_cntÃ¿ms¼Ó1£¬ËùÒÔtimer_intervalµÄµ¥Î»ÊÇms
+            float time_seconds = (float)timer_interval / 1000.0; // ×ª»»ÎªÃë
+            
+            // µ¥¸öÂö³å¶ÔÓ¦µÄË®Á¿£¨Éý£©
+            float water_per_pulse = 1.0 / PULSES_PER_LITER;
+
+            // Á÷ËÙ = Ë®Á¿ / Ê±¼ä * 60£¨×ª»»ÎªÉý/·ÖÖÓ£©
+            flow_rate = (water_per_pulse / time_seconds) * 60.0;
+            
+            //printf("Á÷ËÙ¼ÆËã: %d L\r\n", timer_interval);
+            sprintf(test, "t10.txt=\"%.2fL/min\"", flow_rate);
+		    tjc_send_string(test);
+            sprintf(test, "t11.txt=\"%.2fL\"", total_flow);
+		    tjc_send_string(test);
+        }
+        
+        last_capture_time = current_time;
+        last_timer_cnt = current_timer_cnt;
+               
+
+    }
+
+    if( TIM_GetITStatus( TIM1, TIM_IT_CC2 ) != RESET )
+>>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
     {
     }
 
     TIM_ClearITPendingBit(TIM1, TIM_IT_CC1 | TIM_IT_CC2);
 }
 
+<<<<<<< HEAD
 // ============================================================
 // æ¼æ°´æ£€æµ‹é€»è¾‘
 // ============================================================
@@ -349,3 +484,5 @@ static uint8_t Leak_DetectByFlowRate(void)
 
     return 0;
 }
+=======
+>>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
