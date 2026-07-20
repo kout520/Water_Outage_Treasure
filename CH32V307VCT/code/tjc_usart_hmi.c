@@ -1,13 +1,7 @@
 /**
-<<<<<<< HEAD
 Ê¹ï¿½ï¿½×¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½:
     1.ï¿½ï¿½tjc_usart_hmi.cï¿½ï¿½tjc_usart_hmi.h ï¿½Ö±ï¿½ï¿½ë¹¤ï¿½ï¿½
     2.ï¿½ï¿½ï¿½ï¿½ÒªÊ¹ï¿½ÃµÄºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½Í·ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ #include "tjc_usart_hmi.h"
-=======
-Ê¹ÓÃ×¢ÒâÊÂÏî:
-    1.½«tjc_usart_hmi.cºÍtjc_usart_hmi.h ·Ö±ðµ¼Èë¹¤³Ì
-    2.ÔÚÐèÒªÊ¹ÓÃµÄº¯ÊýËùÔÚµÄÍ·ÎÄ¼þÖÐÌí¼Ó #include "tjc_usart_hmi.h"
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
 
 
 */
@@ -25,15 +19,9 @@ typedef struct
     uint8_t  Ring_data[RINGBUFFER_LEN];
 }RingBuffer_t;
 
-<<<<<<< HEAD
 RingBuffer_t ringBuffer;	//ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ringBufferï¿½Ä»ï¿½ï¿½ï¿½ï¿½ï¿½
 uint8_t RxBuffer[1];
-char str[36];
-=======
-RingBuffer_t ringBuffer;	//´´½¨Ò»¸öringBufferµÄ»º³åÇø
-uint8_t RxBuffer[1];
 
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
 
 void UART_HIM_Init(void)
 {
@@ -44,17 +32,10 @@ void UART_HIM_Init(void)
     /* USART2 TX-->A.2   RX-->A.3 */
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-<<<<<<< HEAD
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;              //ï¿½ï¿½ï¿½ï¿½PA2Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;              //ï¿½ï¿½ï¿½ï¿½PA2Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     GPIO_Init(GPIOA, &GPIO_InitStructure);
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;        //ï¿½ï¿½ï¿½ï¿½PA3Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-=======
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;              //ÉèÖÃPA2Îª¸´ÓÃÍÆÍìÊä³ö
-    GPIO_Init(GPIOA, &GPIO_InitStructure);
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;        //ÉèÖÃPA3Îª¸¡¿ÕÊäÈë
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
     GPIO_Init(GPIOA, &GPIO_InitStructure);
     USART_InitTypeDef  USART_InitStructure={0};
   
@@ -70,82 +51,47 @@ void UART_HIM_Init(void)
         NVIC_InitTypeDef   NVIC_InitStructure={0};
 
     NVIC_InitStructure.NVIC_IRQChannel = USART2_IRQn;
-<<<<<<< HEAD
     NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=1;      //ï¿½ï¿½Õ¼ï¿½ï¿½ï¿½È¼ï¿½Îª1
     NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;           //ï¿½ï¿½ï¿½ï¿½ï¿½È¼ï¿½Îª1
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;              //IRQÍ¨ï¿½ï¿½Ê¹ï¿½ï¿½
     NVIC_Init(&NVIC_InitStructure);                              //ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½È¼ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½
-=======
-    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=1;      //ÇÀÕ¼ÓÅÏÈ¼¶Îª1
-    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;           //×ÓÓÅÏÈ¼¶Îª1
-    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;              //IRQÍ¨µÀÊ¹ÄÜ
-    NVIC_Init(&NVIC_InitStructure);                              //ÖÐ¶ÏÓÅÏÈ¼¶³õÊ¼»¯
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
     USART_ITConfig(USART2,USART_IT_RXNE,ENABLE);
     USART_Cmd(USART2,ENABLE);
 }
 
 /********************************************************
-<<<<<<< HEAD
 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  		intToStr
 ï¿½ï¿½ï¿½Ú£ï¿½    	2024.09.18
 ï¿½ï¿½ï¿½Ü£ï¿½    	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½Îªï¿½Ö·ï¿½ï¿½ï¿½
-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?		Òª×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½		Òª×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ 		ï¿½ï¿½
 ï¿½Þ¸Ä¼ï¿½Â¼ï¿½ï¿½
-=======
-º¯ÊýÃû£º  		intToStr
-ÈÕÆÚ£º    	2024.09.18
-¹¦ÄÜ£º    	½«ÕûÐÎ×ª»»Îª×Ö·û´®
-ÊäÈë²ÎÊý£º		Òª×ª»»µÄÕûÐÎÊý¾Ý,Êä³öµÄ×Ö·û´®Êý×é
-·µ»ØÖµ£º 		ÎÞ
-ÐÞ¸Ä¼ÇÂ¼£º
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
 **********************************************************/
 void intToStr(int num, char* str) {
     int i = 0;
     int isNegative = 0;
 
-<<<<<<< HEAD
     // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-=======
-    // ´¦Àí¸ºÊý
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
     if (num < 0) {
         isNegative = 1;
         num = -num;
     }
 
-<<<<<<< HEAD
     // ï¿½ï¿½È¡Ã¿Ò»Î»ï¿½ï¿½ï¿½ï¿½
-=======
-    // ÌáÈ¡Ã¿Ò»Î»Êý×Ö
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
     do {
         str[i++] = (num % 10) + '0';
         num /= 10;
     } while (num);
 
-<<<<<<< HEAD
-    // ï¿½ï¿½ï¿½ï¿½Ç¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¸ï¿½ï¿½ï¿½?
-=======
-    // Èç¹ûÊÇ¸ºÊý£¬Ìí¼Ó¸ººÅ
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
+    // ï¿½ï¿½ï¿½ï¿½Ç¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¸ï¿½ï¿½ï¿½
     if (isNegative) {
         str[i++] = '-';
     }
 
-<<<<<<< HEAD
     // ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½Ö¹ï¿½ï¿½
     str[i] = '\0';
 
     // ï¿½ï¿½×ªï¿½Ö·ï¿½ï¿½ï¿½
-=======
-    // Ìí¼Ó×Ö·û´®ÖÕÖ¹·û
-    str[i] = '\0';
-
-    // ·´×ª×Ö·û´®
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
     int start = 0;
     int end = i - 1;
     while (start < end) {
@@ -160,73 +106,41 @@ void intToStr(int num, char* str) {
 
 
 /********************************************************
-<<<<<<< HEAD
 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  		uart_send_char
 ï¿½ï¿½ï¿½Ú£ï¿½    	2024.09.18
 ï¿½ï¿½ï¿½Ü£ï¿½    	ï¿½ï¿½ï¿½Ú·ï¿½ï¿½Íµï¿½ï¿½ï¿½ï¿½Ö·ï¿½
-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?		Òªï¿½ï¿½ï¿½ÍµÄµï¿½ï¿½ï¿½ï¿½Ö·ï¿½
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½		Òªï¿½ï¿½ï¿½ÍµÄµï¿½ï¿½ï¿½ï¿½Ö·ï¿½
 ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ 		ï¿½ï¿½
 ï¿½Þ¸Ä¼ï¿½Â¼ï¿½ï¿½
-=======
-º¯ÊýÃû£º  		uart_send_char
-ÈÕÆÚ£º    	2024.09.18
-¹¦ÄÜ£º    	´®¿Ú·¢ËÍµ¥¸ö×Ö·û
-ÊäÈë²ÎÊý£º		Òª·¢ËÍµÄµ¥¸ö×Ö·û
-·µ»ØÖµ£º 		ÎÞ
-ÐÞ¸Ä¼ÇÂ¼£º
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
 **********************************************************/
 void uart_send_char(char ch)
 {
     uint8_t ch2 = (uint8_t)ch;
     
-<<<<<<< HEAD
     // ï¿½ï¿½ï¿½Íµï¿½ï¿½ï¿½ï¿½Ö·ï¿½
     USART_SendData(USART2, ch2);
     
-    // ï¿½È´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?
-=======
-    // ·¢ËÍµ¥¸ö×Ö·û
-    USART_SendData(USART2, ch2);
-    
-    // µÈ´ý·¢ËÍÍê³É
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
+    // ï¿½È´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     while(USART_GetFlagStatus(USART2, USART_FLAG_TXE) == RESET);
     
     return;
 }
 
 // /********************************************************
-<<<<<<< HEAD
 // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  		uart_send_char
 // ï¿½ï¿½ï¿½Ú£ï¿½    	2024.09.18
 // ï¿½ï¿½ï¿½Ü£ï¿½    	ï¿½ï¿½ï¿½Ú·ï¿½ï¿½Íµï¿½ï¿½ï¿½ï¿½Ö·ï¿½
-// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?		Òªï¿½ï¿½ï¿½ÍµÄµï¿½ï¿½ï¿½ï¿½Ö·ï¿½
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½		Òªï¿½ï¿½ï¿½ÍµÄµï¿½ï¿½ï¿½ï¿½Ö·ï¿½
 // ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ 		ï¿½ï¿½
 // ï¿½Þ¸Ä¼ï¿½Â¼ï¿½ï¿½
-=======
-// º¯ÊýÃû£º  		uart_send_char
-// ÈÕÆÚ£º    	2024.09.18
-// ¹¦ÄÜ£º    	´®¿Ú·¢ËÍµ¥¸ö×Ö·û
-// ÊäÈë²ÎÊý£º		Òª·¢ËÍµÄµ¥¸ö×Ö·û
-// ·µ»ØÖµ£º 		ÎÞ
-// ÐÞ¸Ä¼ÇÂ¼£º
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
 // **********************************************************/
 // void uart_send_char(char ch)
 // {
 // 	uint8_t ch2 = (uint8_t)ch;
-<<<<<<< HEAD
-//     //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0Ã¦ï¿½ï¿½Ê±ï¿½ï¿½È´ï¿½ï¿½ï¿½ï¿½ï¿½Ã¦ï¿½ï¿½Ê±ï¿½ï¿½ï¿½Ù·ï¿½ï¿½Í´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½?
-// 	//while(__HAL_UART_GET_FLAG(&TJC_UART, UART_FLAG_TXE) == RESET);	//ï¿½È´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?
+//     //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0Ã¦ï¿½ï¿½Ê±ï¿½ï¿½È´ï¿½ï¿½ï¿½ï¿½ï¿½Ã¦ï¿½ï¿½Ê±ï¿½ï¿½ï¿½Ù·ï¿½ï¿½Í´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½
+// 	//while(__HAL_UART_GET_FLAG(&TJC_UART, UART_FLAG_TXE) == RESET);	//ï¿½È´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 // 	while(__HAL_UART_GET_FLAG(&TJC_UART, UART_FLAG_TC) == RESET);
 //     //ï¿½ï¿½ï¿½Íµï¿½ï¿½ï¿½ï¿½Ö·ï¿½
-=======
-//     //µ±´®¿Ú0Ã¦µÄÊ±ºòµÈ´ý£¬²»Ã¦µÄÊ±ºòÔÙ·¢ËÍ´«½øÀ´µÄ×Ö·û
-// 	//while(__HAL_UART_GET_FLAG(&TJC_UART, UART_FLAG_TXE) == RESET);	//µÈ´ý·¢ËÍÍê±Ï
-// 	while(__HAL_UART_GET_FLAG(&TJC_UART, UART_FLAG_TC) == RESET);
-//     //·¢ËÍµ¥¸ö×Ö·û
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
 // 	HAL_UART_Transmit_IT(&TJC_UART, &ch2, 1);
 
 
@@ -245,28 +159,20 @@ void uart_send_char(char ch)
 
 void uart_send_string(char* str)
 {
-<<<<<<< HEAD
     //ï¿½ï¿½Ç°ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½Ú½ï¿½Î² ï¿½ï¿½ï¿½ï¿½ ï¿½Ö·ï¿½ï¿½ï¿½ï¿½×µï¿½Ö·ï¿½ï¿½Îªï¿½ï¿½
     while(*str!=0&&str!=0)
     {
-        //ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½×µï¿½Ö·ï¿½Ðµï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö®ï¿½ï¿½ï¿½×µï¿½Ö·ï¿½ï¿½ï¿½ï¿½?
-=======
-    //µ±Ç°×Ö·û´®µØÖ·²»ÔÚ½áÎ² ²¢ÇÒ ×Ö·û´®Ê×µØÖ·²»Îª¿Õ
-    while(*str!=0&&str!=0)
-    {
-        //·¢ËÍ×Ö·û´®Ê×µØÖ·ÖÐµÄ×Ö·û£¬²¢ÇÒÔÚ·¢ËÍÍê³ÉÖ®ºóÊ×µØÖ·×ÔÔö
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
+        //ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½×µï¿½Ö·ï¿½Ðµï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö®ï¿½ï¿½ï¿½×µï¿½Ö·ï¿½ï¿½ï¿½ï¿½
         uart_send_char(*str++);
     }
 	return;
 }
 
 /********************************************************
-<<<<<<< HEAD
 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  		tjc_send_string
 ï¿½ï¿½ï¿½Ú£ï¿½    	2024.09.18
 ï¿½ï¿½ï¿½Ü£ï¿½    	ï¿½ï¿½ï¿½Ú·ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½Í½ï¿½ï¿½ï¿½ï¿½ï¿½
-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?		Òªï¿½ï¿½ï¿½Íµï¿½ï¿½Ö·ï¿½ï¿½ï¿½
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½		Òªï¿½ï¿½ï¿½Íµï¿½ï¿½Ö·ï¿½ï¿½ï¿½
 ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ 		ï¿½ï¿½
 Ê¾ï¿½ï¿½:			tjc_send_val("n0", "val", 100); ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¾ï¿½ï¿½ï¿½ n0.val=100
 ï¿½Þ¸Ä¼ï¿½Â¼ï¿½ï¿½
@@ -276,23 +182,7 @@ void tjc_send_string(char* str)
     //ï¿½ï¿½Ç°ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½Ú½ï¿½Î² ï¿½ï¿½ï¿½ï¿½ ï¿½Ö·ï¿½ï¿½ï¿½ï¿½×µï¿½Ö·ï¿½ï¿½Îªï¿½ï¿½
     while(*str!=0&&str!=0)
     {
-        //ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½×µï¿½Ö·ï¿½Ðµï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö®ï¿½ï¿½ï¿½×µï¿½Ö·ï¿½ï¿½ï¿½ï¿½?
-=======
-º¯ÊýÃû£º  		tjc_send_string
-ÈÕÆÚ£º    	2024.09.18
-¹¦ÄÜ£º    	´®¿Ú·¢ËÍ×Ö·û´®ºÍ½áÊø·û
-ÊäÈë²ÎÊý£º		Òª·¢ËÍµÄ×Ö·û´®
-·µ»ØÖµ£º 		ÎÞ
-Ê¾Àý:			tjc_send_val("n0", "val", 100); ·¢³öµÄÊý¾Ý¾ÍÊÇ n0.val=100
-ÐÞ¸Ä¼ÇÂ¼£º
-**********************************************************/
-void tjc_send_string(char* str)
-{
-    //µ±Ç°×Ö·û´®µØÖ·²»ÔÚ½áÎ² ²¢ÇÒ ×Ö·û´®Ê×µØÖ·²»Îª¿Õ
-    while(*str!=0&&str!=0)
-    {
-        //·¢ËÍ×Ö·û´®Ê×µØÖ·ÖÐµÄ×Ö·û£¬²¢ÇÒÔÚ·¢ËÍÍê³ÉÖ®ºóÊ×µØÖ·×ÔÔö
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
+        //ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½×µï¿½Ö·ï¿½Ðµï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö®ï¿½ï¿½ï¿½×µï¿½Ö·ï¿½ï¿½ï¿½ï¿½
         uart_send_char(*str++);
     }
 	uart_send_char(0xff);
@@ -302,23 +192,13 @@ void tjc_send_string(char* str)
 }
 
 /********************************************************
-<<<<<<< HEAD
 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  		tjc_send_txt
 ï¿½ï¿½ï¿½Ú£ï¿½    	2024.09.18
 ï¿½ï¿½ï¿½Ü£ï¿½    	ï¿½ï¿½ï¿½Ú·ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½Í½ï¿½ï¿½ï¿½ï¿½ï¿½
-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?		Òªï¿½ï¿½ï¿½Íµï¿½ï¿½Ö·ï¿½ï¿½ï¿½
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½		Òªï¿½ï¿½ï¿½Íµï¿½ï¿½Ö·ï¿½ï¿½ï¿½
 ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ 		ï¿½ï¿½
 Ê¾ï¿½ï¿½:			tjc_send_txt("t0", "txt", "ABC"); ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¾ï¿½ï¿½ï¿½t0.txt="ABC"
 ï¿½Þ¸Ä¼ï¿½Â¼ï¿½ï¿½
-=======
-º¯ÊýÃû£º  		tjc_send_txt
-ÈÕÆÚ£º    	2024.09.18
-¹¦ÄÜ£º    	´®¿Ú·¢ËÍ×Ö·û´®ºÍ½áÊø·û
-ÊäÈë²ÎÊý£º		Òª·¢ËÍµÄ×Ö·û´®
-·µ»ØÖµ£º 		ÎÞ
-Ê¾Àý:			tjc_send_txt("t0", "txt", "ABC"); ·¢³öµÄÊý¾Ý¾ÍÊÇt0.txt="ABC"
-ÐÞ¸Ä¼ÇÂ¼£º
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
 **********************************************************/
 void tjc_send_txt(char* objname, char* attribute, char* txt)
 {
@@ -337,38 +217,21 @@ void tjc_send_txt(char* objname, char* attribute, char* txt)
 
 
 /********************************************************
-<<<<<<< HEAD
 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  		tjc_send_val
 ï¿½ï¿½ï¿½Ú£ï¿½    	2024.09.18
 ï¿½ï¿½ï¿½Ü£ï¿½    	ï¿½ï¿½ï¿½Ú·ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½Í½ï¿½ï¿½ï¿½ï¿½ï¿½
-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?		Òªï¿½ï¿½ï¿½Íµï¿½ï¿½Ö·ï¿½ï¿½ï¿½
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½		Òªï¿½ï¿½ï¿½Íµï¿½ï¿½Ö·ï¿½ï¿½ï¿½
 ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ 		ï¿½ï¿½
 ï¿½Þ¸Ä¼ï¿½Â¼ï¿½ï¿½
 **********************************************************/
 void tjc_send_val(char* objname, char* attribute, int val)
 {
 	//Æ´ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½n0.val=123
-=======
-º¯ÊýÃû£º  		tjc_send_val
-ÈÕÆÚ£º    	2024.09.18
-¹¦ÄÜ£º    	´®¿Ú·¢ËÍ×Ö·û´®ºÍ½áÊø·û
-ÊäÈë²ÎÊý£º		Òª·¢ËÍµÄ×Ö·û´®
-·µ»ØÖµ£º 		ÎÞ
-ÐÞ¸Ä¼ÇÂ¼£º
-**********************************************************/
-void tjc_send_val(char* objname, char* attribute, int val)
-{
-	//Æ´½Ó×Ö·û´®,±ÈÈçn0.val=123
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
     uart_send_string(objname);
     uart_send_char('.');
     uart_send_string(attribute);
     uart_send_char('=');
-<<<<<<< HEAD
     //Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îµï¿½È¡Öµï¿½ï¿½Î§ï¿½Ç£ï¿½ï¿½ï¿½-2147483648 ~ 2147483647ï¿½ï¿½, ï¿½î³¤Îª-2147483648,ï¿½ï¿½ï¿½Ï½ï¿½ï¿½ï¿½ï¿½ï¿½\0Ò»ï¿½ï¿½12ï¿½ï¿½ï¿½Ö·ï¿½
-=======
-    //CÓïÑÔÖÐÕûÐÎµÄÈ¡Öµ·¶Î§ÊÇ£º¡°-2147483648 ~ 2147483647¡±, ×î³¤Îª-2147483648,¼ÓÉÏ½áÊø·û\0Ò»¹²12¸ö×Ö·û
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
     char txt[12]="";
     intToStr(val, txt);
     uart_send_string(txt);
@@ -379,11 +242,10 @@ void tjc_send_val(char* objname, char* attribute, int val)
 }
 
 /********************************************************
-<<<<<<< HEAD
 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  		tjc_send_nstring
 ï¿½ï¿½ï¿½Ú£ï¿½    	2024.09.18
 ï¿½ï¿½ï¿½Ü£ï¿½    	ï¿½ï¿½ï¿½Ú·ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½Í½ï¿½ï¿½ï¿½ï¿½ï¿½
-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?		Òªï¿½ï¿½ï¿½Íµï¿½ï¿½Ö·ï¿½ï¿½ï¿½,ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½		Òªï¿½ï¿½ï¿½Íµï¿½ï¿½Ö·ï¿½ï¿½ï¿½,ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ 		ï¿½ï¿½
 ï¿½Þ¸Ä¼ï¿½Â¼ï¿½ï¿½
 **********************************************************/
@@ -392,22 +254,7 @@ void tjc_send_nstring(char* str, unsigned char str_length)
     //ï¿½ï¿½Ç°ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½Ú½ï¿½Î² ï¿½ï¿½ï¿½ï¿½ ï¿½Ö·ï¿½ï¿½ï¿½ï¿½×µï¿½Ö·ï¿½ï¿½Îªï¿½ï¿½
     for (int var = 0; var < str_length; ++var)
     {
-        //ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½×µï¿½Ö·ï¿½Ðµï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö®ï¿½ï¿½ï¿½×µï¿½Ö·ï¿½ï¿½ï¿½ï¿½?
-=======
-º¯ÊýÃû£º  		tjc_send_nstring
-ÈÕÆÚ£º    	2024.09.18
-¹¦ÄÜ£º    	´®¿Ú·¢ËÍ×Ö·û´®ºÍ½áÊø·û
-ÊäÈë²ÎÊý£º		Òª·¢ËÍµÄ×Ö·û´®,×Ö·û´®³¤¶È
-·µ»ØÖµ£º 		ÎÞ
-ÐÞ¸Ä¼ÇÂ¼£º
-**********************************************************/
-void tjc_send_nstring(char* str, unsigned char str_length)
-{
-    //µ±Ç°×Ö·û´®µØÖ·²»ÔÚ½áÎ² ²¢ÇÒ ×Ö·û´®Ê×µØÖ·²»Îª¿Õ
-    for (int var = 0; var < str_length; ++var)
-    {
-        //·¢ËÍ×Ö·û´®Ê×µØÖ·ÖÐµÄ×Ö·û£¬²¢ÇÒÔÚ·¢ËÍÍê³ÉÖ®ºóÊ×µØÖ·×ÔÔö
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
+        //ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½×µï¿½Ö·ï¿½Ðµï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö®ï¿½ï¿½ï¿½×µï¿½Ö·ï¿½ï¿½ï¿½ï¿½
         uart_send_char(*str++);
     }
 	uart_send_char(0xff);
@@ -418,58 +265,33 @@ void tjc_send_nstring(char* str, unsigned char str_length)
 
 u8 USART_Rbuffer_Num = 0;
 u8 USART_Tbuffer_Num = 0;
-<<<<<<< HEAD
 // u8 USART_Rbuffer[buffer_len];//ï¿½ï¿½ï¿½Õ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-=======
-// u8 USART_Rbuffer[buffer_len];//½ÓÊÕ»º³åÇøÊý×é
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
 
 
 
 /********************************************************
-<<<<<<< HEAD
 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  		initRingBuffer
 ï¿½ï¿½ï¿½Ú£ï¿½    	2022.10.08
 ï¿½ï¿½ï¿½Ü£ï¿½    	ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½ï¿½ï¿½ï¿½
-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ 		void
 ï¿½Þ¸Ä¼ï¿½Â¼ï¿½ï¿½
 **********************************************************/
 void initRingBuffer(void)
 {
-	//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?
-=======
-º¯ÊýÃû£º  		initRingBuffer
-ÈÕÆÚ£º    	2022.10.08
-¹¦ÄÜ£º    	³õÊ¼»¯»·ÐÎ»º³åÇø
-ÊäÈë²ÎÊý£º
-·µ»ØÖµ£º 		void
-ÐÞ¸Ä¼ÇÂ¼£º
-**********************************************************/
-void initRingBuffer(void)
-{
-	//³õÊ¼»¯Ïà¹ØÐÅÏ¢
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
+	//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 	ringBuffer.Head = 0;
 	ringBuffer.Tail = 0;
 	ringBuffer.Length = 0;
 	return;
 }
 
-<<<<<<< HEAD
 //ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½
-=======
-//½ÓÊÕÖÐ¶Ï
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
 void USART2_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
 void USART2_IRQHandler(void)
 {
     
-<<<<<<< HEAD
     // ï¿½ï¿½È·ï¿½ï¿½È¡ï¿½ï¿½ï¿½Õµï¿½ï¿½ï¿½ HEX ï¿½ï¿½ï¿½ï¿½
-=======
-    // ÕýÈ·¶ÁÈ¡½ÓÊÕµ½µÄ HEX Êý¾Ý
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
     if(USART_GetITStatus(USART2, USART_IT_RXNE) != RESET)
     {
         
@@ -486,59 +308,32 @@ void USART2_IRQHandler(void)
 
 
 /********************************************************
-<<<<<<< HEAD
 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  		write1ByteToRingBuffer
 ï¿½ï¿½ï¿½Ú£ï¿½    	2022.10.08
 ï¿½ï¿½ï¿½Ü£ï¿½    	ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?		ÒªÐ´ï¿½ï¿½ï¿½?1ï¿½Ö½ï¿½ï¿½ï¿½ï¿½ï¿½
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½		ÒªÐ´ï¿½ï¿½ï¿½1ï¿½Ö½ï¿½ï¿½ï¿½ï¿½ï¿½
 ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ 		void
 ï¿½Þ¸Ä¼ï¿½Â¼ï¿½ï¿½
 **********************************************************/
 void write1ByteToRingBuffer(uint8_t data)
 {
 	if(ringBuffer.Length >= RINGBUFFER_LEN) //ï¿½Ð¶Ï»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½
-=======
-º¯ÊýÃû£º  		write1ByteToRingBuffer
-ÈÕÆÚ£º    	2022.10.08
-¹¦ÄÜ£º    	Íù»·ÐÎ»º³åÇøÐ´ÈëÊý¾Ý
-ÊäÈë²ÎÊý£º		ÒªÐ´ÈëµÄ1×Ö½ÚÊý¾Ý
-·µ»ØÖµ£º 		void
-ÐÞ¸Ä¼ÇÂ¼£º
-**********************************************************/
-void write1ByteToRingBuffer(uint8_t data)
-{
-	if(ringBuffer.Length >= RINGBUFFER_LEN) //ÅÐ¶Ï»º³åÇøÊÇ·ñÒÑÂú
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
 	{
 	return ;
 	}
 	ringBuffer.Ring_data[ringBuffer.Tail]=data;
-<<<<<<< HEAD
-	ringBuffer.Tail = (ringBuffer.Tail+1)%RINGBUFFER_LEN;//ï¿½ï¿½Ö¹Ô½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½?
-=======
-	ringBuffer.Tail = (ringBuffer.Tail+1)%RINGBUFFER_LEN;//·ÀÖ¹Ô½½ç·Ç·¨·ÃÎÊ
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
+	ringBuffer.Tail = (ringBuffer.Tail+1)%RINGBUFFER_LEN;//ï¿½ï¿½Ö¹Ô½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½
 	ringBuffer.Length++;
 	return ;
 }
 /********************************************************
-<<<<<<< HEAD
 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  		read1ByteFromRingBuffer
 ï¿½ï¿½ï¿½ß£ï¿½
 ï¿½ï¿½ï¿½Ú£ï¿½    	2022.10.08
 ï¿½ï¿½ï¿½Ü£ï¿½    	ï¿½Ó´ï¿½ï¿½Ú»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡1ï¿½Ö½ï¿½ï¿½ï¿½ï¿½ï¿½
-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?		position:ï¿½ï¿½È¡ï¿½ï¿½Î»ï¿½ï¿½
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½		position:ï¿½ï¿½È¡ï¿½ï¿½Î»ï¿½ï¿½
 ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ 		ï¿½ï¿½ï¿½ï¿½Î»ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½(1ï¿½Ö½ï¿½)
 ï¿½Þ¸Ä¼ï¿½Â¼ï¿½ï¿½
-=======
-º¯ÊýÃû£º  		read1ByteFromRingBuffer
-×÷Õß£º
-ÈÕÆÚ£º    	2022.10.08
-¹¦ÄÜ£º    	´Ó´®¿Ú»º³åÇø¶ÁÈ¡1×Ö½ÚÊý¾Ý
-ÊäÈë²ÎÊý£º		position:¶ÁÈ¡µÄÎ»ÖÃ
-·µ»ØÖµ£º 		ËùÔÚÎ»ÖÃµÄÊý¾Ý(1×Ö½Ú)
-ÐÞ¸Ä¼ÇÂ¼£º
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
 **********************************************************/
 uint8_t read1ByteFromRingBuffer(uint16_t position)
 {
@@ -552,23 +347,13 @@ uint8_t read1ByteFromRingBuffer(uint16_t position)
 
 
 /********************************************************
-<<<<<<< HEAD
 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  		deleteRingBuffer
 ï¿½ï¿½ï¿½ß£ï¿½
 ï¿½ï¿½ï¿½Ú£ï¿½    	2022.10.08
 ï¿½ï¿½ï¿½Ü£ï¿½    	É¾ï¿½ï¿½ï¿½ï¿½ï¿½Ú»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½Èµï¿½ï¿½ï¿½ï¿½ï¿½
-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?		ÒªÉ¾ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½		ÒªÉ¾ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½
 ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ 		void
 ï¿½Þ¸Ä¼ï¿½Â¼ï¿½ï¿½
-=======
-º¯ÊýÃû£º  		deleteRingBuffer
-×÷Õß£º
-ÈÕÆÚ£º    	2022.10.08
-¹¦ÄÜ£º    	É¾³ý´®¿Ú»º³åÇøÖÐÏàÓ¦³¤¶ÈµÄÊý¾Ý
-ÊäÈë²ÎÊý£º		ÒªÉ¾³ýµÄ³¤¶È
-·µ»ØÖµ£º 		void
-ÐÞ¸Ä¼ÇÂ¼£º
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
 **********************************************************/
 void deleteRingBuffer(uint16_t size)
 {
@@ -579,11 +364,7 @@ void deleteRingBuffer(uint16_t size)
 	}
 	for(int i = 0; i < size; i++)
 	{
-<<<<<<< HEAD
-		ringBuffer.Head = (ringBuffer.Head+1)%RINGBUFFER_LEN;//ï¿½ï¿½Ö¹Ô½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½?
-=======
-		ringBuffer.Head = (ringBuffer.Head+1)%RINGBUFFER_LEN;//·ÀÖ¹Ô½½ç·Ç·¨·ÃÎÊ
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
+		ringBuffer.Head = (ringBuffer.Head+1)%RINGBUFFER_LEN;//ï¿½ï¿½Ö¹Ô½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½
 		ringBuffer.Length--;
 		return;
 	}
@@ -596,23 +377,13 @@ void deleteRingBuffer(uint16_t size)
 
 
 /********************************************************
-<<<<<<< HEAD
 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  		getRingBufferLength
 ï¿½ï¿½ï¿½ß£ï¿½
 ï¿½ï¿½ï¿½Ú£ï¿½    	2022.10.08
 ï¿½ï¿½ï¿½Ü£ï¿½    	ï¿½ï¿½È¡ï¿½ï¿½ï¿½Ú»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ 		ï¿½ï¿½ï¿½Ú»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 ï¿½Þ¸Ä¼ï¿½Â¼ï¿½ï¿½
-=======
-º¯ÊýÃû£º  		getRingBufferLength
-×÷Õß£º
-ÈÕÆÚ£º    	2022.10.08
-¹¦ÄÜ£º    	»ñÈ¡´®¿Ú»º³åÇøµÄÊý¾ÝÊýÁ¿
-ÊäÈë²ÎÊý£º
-·µ»ØÖµ£º 		´®¿Ú»º³åÇøµÄÊý¾ÝÊýÁ¿
-ÐÞ¸Ä¼ÇÂ¼£º
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
 **********************************************************/
 uint16_t getRingBufferLength()
 {
@@ -621,23 +392,13 @@ uint16_t getRingBufferLength()
 
 
 /********************************************************
-<<<<<<< HEAD
 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  		isRingBufferOverflow
 ï¿½ï¿½ï¿½ß£ï¿½
 ï¿½ï¿½ï¿½Ú£ï¿½    	2022.10.08
 ï¿½ï¿½ï¿½Ü£ï¿½    	ï¿½Ð¶Ï»ï¿½ï¿½Î»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½
-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ 		0:ï¿½ï¿½ï¿½Î»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ , 1:ï¿½ï¿½ï¿½Î»ï¿½ï¿½ï¿½ï¿½ï¿½Î´ï¿½ï¿½
 ï¿½Þ¸Ä¼ï¿½Â¼ï¿½ï¿½
-=======
-º¯ÊýÃû£º  		isRingBufferOverflow
-×÷Õß£º
-ÈÕÆÚ£º    	2022.10.08
-¹¦ÄÜ£º    	ÅÐ¶Ï»·ÐÎ»º³åÇøÊÇ·ñÒÑÂú
-ÊäÈë²ÎÊý£º
-·µ»ØÖµ£º 		0:»·ÐÎ»º³åÇøÒÑÂú , 1:»·ÐÎ»º³åÇøÎ´Âú
-ÐÞ¸Ä¼ÇÂ¼£º
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
 **********************************************************/
 uint8_t isRingBufferOverflow()
 {
@@ -645,28 +406,7 @@ uint8_t isRingBufferOverflow()
 }
 
 
-<<<<<<< HEAD
-
-static char wifi_ssid[WIFI_SSID_MAX_LEN] = {0};
-static char wifi_pwd[WIFI_PWD_MAX_LEN] = {0};
-char serve_num[SERVE_MAX_LEN] = {0};
-static uint8_t wifi_ssid_len = 0;
-static uint8_t wifi_pwd_len = 0;
-static uint8_t serve_len = 0;
-static uint8_t wifi_data_type = 0; // 0:ï¿½ï¿½ï¿½ï¿½ 1:ï¿½È´ï¿½SSID 2:ï¿½È´ï¿½ï¿½ï¿½ï¿½ï¿½
-static uint8_t wifi_frame_received = 0;
-
-static int g_time_left = 0;     // æ—¶é—´æ®µå·¦ï¿½?
-static int g_time_right = 24;   // æ—¶é—´æ®µå³ï¿½?
-
-/********************************************************
-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  		void HMI_task()
-ï¿½ï¿½ï¿½ß£ï¿½
-ï¿½ï¿½ï¿½Ü£ï¿½    	    Êµï¿½Ö´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý´ï¿½ï¿½ï¿½
-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?
-ï¿½Þ¸Ä¼ï¿½Â¼ï¿½ï¿½
-=======
-// ¶¨ÒåWiFiÐÅÏ¢»º³åÇø
+// ï¿½ï¿½ï¿½ï¿½WiFiï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 #define WIFI_SSID_MAX_LEN 32
 #define WIFI_PWD_MAX_LEN 64
 #define SERVE_MAX_LEN 64
@@ -676,67 +416,28 @@ static char serve_num[SERVE_MAX_LEN] = {0};
 static uint8_t wifi_ssid_len = 0;
 static uint8_t wifi_pwd_len = 0;
 static uint8_t serve_len = 0;
-static uint8_t wifi_data_type = 0; // 0:¿ÕÏÐ 1:µÈ´ýSSID 2:µÈ´ýÃÜÂë
-static uint8_t wifi_frame_received = 0; // ±ê¼ÇÊÇ·ñÒÑ½ÓÊÕÊý¾ÝÖ¡
+static uint8_t wifi_data_type = 0; // 0:ï¿½ï¿½ï¿½ï¿½ 1:ï¿½È´ï¿½SSID 2:ï¿½È´ï¿½ï¿½ï¿½ï¿½ï¿½
+static uint8_t wifi_frame_received = 0;
+static int g_time_left = 0;
+static int g_time_right = 24;
 
 /********************************************************
-º¯ÊýÃû£º  		void HMI_task()
-×÷Õß£º
-¹¦ÄÜ£º    	    ÊµÏÖ´®¿ÚÆÁÊý¾Ý´«Êä
-ÊäÈë²ÎÊý£º
-ÐÞ¸Ä¼ÇÂ¼£º
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  		void HMI_task()
+ï¿½ï¿½ï¿½ß£ï¿½
+ï¿½ï¿½ï¿½Ü£ï¿½    	    Êµï¿½Ö´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý´ï¿½ï¿½ï¿½
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ï¿½Þ¸Ä¼ï¿½Â¼ï¿½ï¿½
 **********************************************************/
 void HMI_task()
 {
     esp_received();
     while (usize >= FRAME_LENGTH)
     {
-<<<<<<< HEAD
     // Ð£ï¿½ï¿½Ö¡Í·Ö¡Î²ï¿½Ç·ï¿½Æ¥ï¿½ï¿½
     if (usize >= FRAME_LENGTH && u(0) == 0x55 && u(4) == 0xff && u(5) == 0xff && u(6) == 0xff)
     {
         // Æ¥ï¿½ä£¬ï¿½ï¿½ï¿½Ð½ï¿½ï¿½ï¿½
         if (u(1) == 0x01)//water_speedï¿½ï¿½ï¿½ï¿½
-        {
-            total_pulses = 10;
-            total_flow = 0;
-            sprintf(str,  "t13.txt=\"%d\"",total_pulses );
-            tjc_send_string(str);
-
-
-        } else if (u(1) == 0x02)
-        {
-            
-            wifi_data_type = 1;
-            wifi_frame_received = 0; // ï¿½ï¿½ï¿½Ã½ï¿½ï¿½Õ±ï¿½ï¿½?
-            wifi_ssid_len = 0;
-            memset(wifi_ssid, 0, WIFI_SSID_MAX_LEN);
-        } else if (u(1) == 0x03)
-        {
-            wifi_data_type = 2;
-            wifi_frame_received = 0; // ï¿½ï¿½ï¿½Ã½ï¿½ï¿½Õ±ï¿½ï¿½?
-            wifi_pwd_len = 0;
-            memset(wifi_pwd, 0, WIFI_PWD_MAX_LEN);
-        }else if (u(1) == 0x04)
-        {
-            // ï¿½ï¿½ï¿½ï¿½Í£Ö¹ï¿½ï¿½ï¿½ï¿½
-            wifi_data_type = 0;
-            wifi_frame_received = 0;
-            
-            // printf("WiFi SSID: %s\r\n", wifi_ssid);
-            // printf("WiFi PWD: %s\r\n", wifi_pwd);
-            
-            // Ò»ï¿½ï¿½ï¿½Ô·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½WiFiï¿½ï¿½Ï¢ï¿½ï¿½ESP32
-            send_wifi_to_esp32(wifi_ssid, wifi_pwd);
-            
-            // ï¿½ï¿½Õ»ï¿½ï¿½ï¿½ï¿½ï¿½?
-=======
-    // Ð£ÑéÖ¡Í·Ö¡Î²ÊÇ·ñÆ¥Åä
-    if (usize >= FRAME_LENGTH && u(0) == 0x55 && u(4) == 0xff && u(5) == 0xff && u(6) == 0xff)
-    {
-        // Æ¥Åä£¬½øÐÐ½âÎö
-        if (u(1) == 0x01)//water_speedÖÃÁã
         {
             // total_pulses = 0;
             // total_flow = 0;
@@ -746,33 +447,32 @@ void HMI_task()
         } else if (u(1) == 0x02)
         {
             wifi_data_type = 1;
-            wifi_frame_received = 0; // ÖØÖÃ½ÓÊÕ±ê¼Ç
+            wifi_frame_received = 0; // ï¿½ï¿½ï¿½Ã½ï¿½ï¿½Õ±ï¿½ï¿½
             wifi_ssid_len = 0;
             memset(wifi_ssid, 0, WIFI_SSID_MAX_LEN);
-            printf("¿ªÊ¼½ÓÊÕSSID\r\n");
+            printf("ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½SSID\r\n");
         } else if (u(1) == 0x03)
         {
-            printf("SSID½ÓÊÕÍê³É: %s\r\n", wifi_ssid);
+            printf("SSIDï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: %s\r\n", wifi_ssid);
             wifi_data_type = 2;
-            wifi_frame_received = 0; // ÖØÖÃ½ÓÊÕ±ê¼Ç
+            wifi_frame_received = 0; // ï¿½ï¿½ï¿½Ã½ï¿½ï¿½Õ±ï¿½ï¿½
             wifi_pwd_len = 0;
             memset(wifi_pwd, 0, WIFI_PWD_MAX_LEN);
-            printf("¿ªÊ¼½ÓÊÕÃÜÂë\r\n");
+            printf("ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\r\n");
         }else if (u(1) == 0x04)
         {
-            // Á¢¼´Í£Ö¹½ÓÊÕ
+            // ï¿½ï¿½ï¿½ï¿½Í£Ö¹ï¿½ï¿½ï¿½ï¿½
             wifi_data_type = 0;
             wifi_frame_received = 0;
             
-            // µ÷ÊÔÊä³ö
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             printf("WiFi SSID: %s\r\n", wifi_ssid);
             printf("WiFi PWD: %s\r\n", wifi_pwd);
             
-            // Ò»´ÎÐÔ·¢ËÍÍêÕûµÄWiFiÐÅÏ¢¸øESP32
+            // Ò»ï¿½ï¿½ï¿½Ô·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½WiFiï¿½ï¿½Ï¢ï¿½ï¿½ESP32
             send_wifi_to_esp32(wifi_ssid, wifi_pwd);
             
-            // Çå¿Õ»º³åÇø
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
+            // ï¿½ï¿½Õ»ï¿½ï¿½ï¿½ï¿½ï¿½
             memset(wifi_ssid, 0, WIFI_SSID_MAX_LEN);
             memset(wifi_pwd, 0, WIFI_PWD_MAX_LEN);
             wifi_ssid_len = 0;
@@ -780,35 +480,16 @@ void HMI_task()
         }else if (u(1) == 0x05)
         {
             wifi_data_type = 3;
-<<<<<<< HEAD
-            wifi_frame_received = 0; // ï¿½ï¿½ï¿½Ã½ï¿½ï¿½Õ±ï¿½ï¿½?
+            wifi_frame_received = 0; // ï¿½ï¿½ï¿½Ã½ï¿½ï¿½Õ±ï¿½ï¿½
             serve_len = 0;
             memset(serve_num, 0, SERVE_MAX_LEN);
-
+            printf("ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Õ·ï¿½ï¿½ï¿½ï¿½\r\n");
         }else if (u(1) == 0x06)
         {
-            // ï¿½ï¿½ï¿½ï¿½Í£Ö¹ï¿½ï¿½ï¿½ï¿½
             wifi_data_type = 0;
             wifi_frame_received = 0;
-
-            // printf("serve: %s\r\n", serve_num);
+            printf("serve: %s\r\n", serve_num);
             send_serve_to_esp32(serve_num);
-
-            // ï¿½ï¿½È¡Ã°ï¿½Åºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?
-            char *serve_num1 = strchr(serve_num, ':');
-            if (serve_num1 != NULL)
-            {
-                serve_num1++;  // ï¿½ï¿½ï¿½ï¿½Ã°ï¿½Å±ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½Ã°ï¿½Åºï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ö·ï¿½?
-                sprintf(str, "t14.txt=\"%s\"", serve_num1);  // ? ï¿½ï¿½ %s
-            }
-            else
-            {
-                // Ã»ï¿½Òµï¿½Ã°ï¿½Å£ï¿½ï¿½ï¿½ï¿½ï¿½Ô­Ê¼ï¿½ï¿½ï¿½Ý»ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½?
-                sprintf(str, "t14.txt=\"%s\"", serve_num);
-            }
-            tjc_send_string(str);
-
-            // ï¿½ï¿½Õ»ï¿½ï¿½ï¿½ï¿½ï¿½?
             memset(serve_num, 0, SERVE_MAX_LEN);
             serve_len = 0;
         }else if (u(1) == 0x07)
@@ -825,7 +506,6 @@ void HMI_task()
             char rbuf[32];
             sprintf(rbuf, "t6.txt=\"%.2f\"", WQ_GetRate());
             tjc_send_string(rbuf);
-
         }else if (u(1) == 0x09)
         {
             if (g_time_left < g_time_right) g_time_left++;
@@ -840,19 +520,16 @@ void HMI_task()
             tjc_send_string(tbuf);
         }else if (u(1) == 0x11)
         {
-            // é‡ç½®æ—¶é—´ï¿½?
             g_time_left = 0; g_time_right = 24;
             tjc_send_string("t7.txt=\"0-24\"");
         }else if (u(1) == 0x12)
         {
-            // æ­£å¸¸æµé€Ÿé˜ˆï¿½? +0.05
             Leak_SetNormalFlow(Leak_GetNormalFlow() + 0.05f);
             char fbuf[24];
             sprintf(fbuf, "t8.txt=\"%.2fL/min\"", Leak_GetNormalFlow());
             tjc_send_string(fbuf);
         }else if (u(1) == 0x13)
         {
-            // æ­£å¸¸æµé€Ÿé˜ˆï¿½? -0.05, æœ€ï¿½?0.05
             float f = Leak_GetNormalFlow() - 0.05f;
             if (f < 0.05f) f = 0.05f;
             Leak_SetNormalFlow(f);
@@ -864,11 +541,11 @@ void HMI_task()
             static uint8_t leak_test = 0;
             leak_test = !leak_test;
             if (leak_test) {
-                tjc_send_string("va0.val=12");//va0.val=12
+                tjc_send_string("t4.txt=\"æµ‹è¯•æ¼æ°´!\"");
                 send_leak_to_esp32(1);
                 GPIO_WriteBit(GPIOA, GPIO_Pin_4, Bit_SET);
             } else {
-                tjc_send_string("va0.val=11");//va0.val=11
+                tjc_send_string("t4.txt=\"å®‰å…¨\"");
                 send_leak_to_esp32(0);
                 GPIO_WriteBit(GPIOA, GPIO_Pin_4, Bit_RESET);
                 Leak_Reset();
@@ -876,54 +553,23 @@ void HMI_task()
         }else if (u(1) == 0x21)
         {
             char dbuf[32];
-            // t6: æ°´è´¹çŽ‡
             sprintf(dbuf, "t6.txt=\"%.2f\"", WQ_GetRate());
             tjc_send_string(dbuf);
-            // t7: æ—¶é—´æ®µ
             sprintf(dbuf, "t7.txt=\"%d-%d\"", g_time_left, g_time_right);
             tjc_send_string(dbuf);
-            // t8: æ­£å¸¸æµé€Ÿé˜ˆå€¼
             sprintf(dbuf, "t8.txt=\"%.2fL/min\"", Leak_GetNormalFlow());
             tjc_send_string(dbuf);
         }
 
 
-        udelete(7); // É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        udelete(7);
     } 
-        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¡ï¿½ï¿½?70 XX XX ... FF FF FF
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¡ï¿½ï¿½70 XX XX ... FF FF FF
     else if (u(0) == 0x70 && wifi_data_type != 0 && wifi_frame_received == 0) 
     {
         // Ö»ï¿½Ú½ï¿½ï¿½ï¿½×´Ì¬ï¿½ï¿½Î´ï¿½ï¿½ï¿½Õ¹ï¿½ï¿½ï¿½ï¿½ï¿½Ö¡Ê±ï¿½Å´ï¿½ï¿½ï¿½
         
         // ï¿½ï¿½ï¿½Ò½ï¿½Î²ï¿½ï¿½ FF FF FF
-=======
-            wifi_frame_received = 0; // ÖØÖÃ½ÓÊÕ±ê¼Ç
-            serve_len = 0;
-            memset(serve_num, 0, SERVE_MAX_LEN);
-            printf("¿ªÊ¼½ÓÊÕ·þÎñºÅ\r\n");
-        }else if (u(1) == 0x06)
-        {
-            // Á¢¼´Í£Ö¹½ÓÊÕ
-            wifi_data_type = 0;
-            wifi_frame_received = 0;
-            // µ÷ÊÔÊä³ö
-            printf("serve: %s\r\n", serve_num);
-            send_serve_to_esp32(serve_num);
-            // Çå¿Õ»º³åÇø
-            memset(serve_num, 0, SERVE_MAX_LEN);
-            serve_len = 0;
-        }
-
-
-        udelete(7); // É¾³ý½âÎö¹ýµÄÊý¾Ý
-    } 
-        // ¼ì²éÊý¾ÝÖ¡£º70 XX XX ... FF FF FF
-    else if (u(0) == 0x70 && wifi_data_type != 0 && wifi_frame_received == 0) 
-    {
-        // Ö»ÔÚ½ÓÊÕ×´Ì¬ÇÒÎ´½ÓÊÕ¹ýÊý¾ÝÖ¡Ê±²Å´¦Àí
-        
-        // ²éÕÒ½áÎ²µÄ FF FF FF
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
         uint8_t frame_end = 0;
         for (uint8_t i = 1; i < usize - 2; i++)
         {
@@ -934,19 +580,11 @@ void HMI_task()
             }
         }
         
-<<<<<<< HEAD
         if (frame_end > 0) // ï¿½Òµï¿½ï¿½ï¿½ï¿½ï¿½Ö¡
         {
             uint8_t data_len = frame_end - 1; // ï¿½ï¿½ï¿½Ý³ï¿½ï¿½È£ï¿½È¥ï¿½ï¿½0x70Ö¡Í·ï¿½ï¿½
             
             if (wifi_data_type == 1) // ï¿½ï¿½ï¿½ï¿½SSID
-=======
-        if (frame_end > 0) // ÕÒµ½ÍêÕûÖ¡
-        {
-            uint8_t data_len = frame_end - 1; // Êý¾Ý³¤¶È£¨È¥µô0x70Ö¡Í·£©
-            
-            if (wifi_data_type == 1) // ½ÓÊÕSSID
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
             {
                 if (data_len < WIFI_SSID_MAX_LEN)
                 {
@@ -955,19 +593,11 @@ void HMI_task()
                         wifi_ssid[wifi_ssid_len++] = u(i + 1);
                     }
                     wifi_ssid[wifi_ssid_len] = '\0';
-<<<<<<< HEAD
-                    wifi_frame_received = 1; // ï¿½ï¿½ï¿½ï¿½Ñ½ï¿½ï¿½ï¿½?
-                    // printf("SSID: %s (%d)\r\n", wifi_ssid, wifi_ssid_len);
+                    wifi_frame_received = 1; // ï¿½ï¿½ï¿½ï¿½Ñ½ï¿½ï¿½ï¿½
+                    printf("ï¿½ï¿½ï¿½ï¿½SSIDï¿½ï¿½ï¿½ï¿½: %s (ï¿½ï¿½ï¿½ï¿½:%d)\r\n", wifi_ssid, wifi_ssid_len);
                 }
             }
             else if (wifi_data_type == 2) // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-=======
-                    wifi_frame_received = 1; // ±ê¼ÇÒÑ½ÓÊÕ
-                    printf("½ÓÊÕSSIDÊý¾Ý: %s (³¤¶È:%d)\r\n", wifi_ssid, wifi_ssid_len);
-                }
-            }
-            else if (wifi_data_type == 2) // ½ÓÊÕÃÜÂë
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
             {
                 if (data_len < WIFI_PWD_MAX_LEN)
                 {
@@ -976,19 +606,11 @@ void HMI_task()
                         wifi_pwd[wifi_pwd_len++] = u(i + 1);
                     }
                     wifi_pwd[wifi_pwd_len] = '\0';
-<<<<<<< HEAD
-                    wifi_frame_received = 1; // ï¿½ï¿½ï¿½ï¿½Ñ½ï¿½ï¿½ï¿½?
-                    // printf("PWD: %s (%d)\r\n", wifi_pwd, wifi_pwd_len);
+                    wifi_frame_received = 1; // ï¿½ï¿½ï¿½ï¿½Ñ½ï¿½ï¿½ï¿½
+                    printf("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: %s (ï¿½ï¿½ï¿½ï¿½:%d)\r\n", wifi_pwd, wifi_pwd_len);
                 }
             }
-            else if (wifi_data_type == 3) // ï¿½ï¿½ï¿½Õ·ï¿½ï¿½ï¿½ï¿½?
-=======
-                    wifi_frame_received = 1; // ±ê¼ÇÒÑ½ÓÊÕ
-                    printf("½ÓÊÕÃÜÂëÊý¾Ý: %s (³¤¶È:%d)\r\n", wifi_pwd, wifi_pwd_len);
-                }
-            }
-            else if (wifi_data_type == 3) // ½ÓÊÕ·þÎñºÅ
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
+            else if (wifi_data_type == 3) // ï¿½ï¿½ï¿½Õ·ï¿½ï¿½ï¿½ï¿½
             {
                 if (data_len < WIFI_PWD_MAX_LEN)
                 {
@@ -997,9 +619,8 @@ void HMI_task()
                         serve_num[serve_len++] = u(i + 1);
                     }
                     serve_num[serve_len] = '\0';
-<<<<<<< HEAD
-                    wifi_frame_received = 1; // ï¿½ï¿½ï¿½ï¿½Ñ½ï¿½ï¿½ï¿½?
-                    // printf("SERVE: %s (%d)\r\n", serve_num, serve_len);
+                    wifi_frame_received = 1; // ï¿½ï¿½ï¿½ï¿½Ñ½ï¿½ï¿½ï¿½
+                    printf("ï¿½ï¿½ï¿½Õ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: %s (ï¿½ï¿½ï¿½ï¿½:%d)\r\n", serve_num, serve_len);
                 }
             }
             
@@ -1008,27 +629,11 @@ void HMI_task()
         else
         {
             break; // ï¿½ï¿½ï¿½Ý²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-=======
-                    wifi_frame_received = 1; // ±ê¼ÇÒÑ½ÓÊÕ
-                    printf("½ÓÊÕ·þÎñºÅÊý¾Ý: %s (³¤¶È:%d)\r\n", serve_num, serve_len);
-                }
-            }
-            
-            udelete(frame_end + 3); // É¾³ýÕû¸öÊý¾ÝÖ¡£¨°üÀ¨3¸ö0xFF£©
-        }
-        else
-        {
-            break; // Êý¾Ý²»ÍêÕû£¬µÈ´ý¸ü¶àÊý¾Ý
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
         }
     }
     else
     {
-<<<<<<< HEAD
             // ï¿½ï¿½Æ¥ï¿½ï¿½É¾ï¿½ï¿½1ï¿½Ö½ï¿½
-=======
-            // ²»Æ¥ÅäÉ¾³ý1×Ö½Ú
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
         udelete(1);
         break;
     }

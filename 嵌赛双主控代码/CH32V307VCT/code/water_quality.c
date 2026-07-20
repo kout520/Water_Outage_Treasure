@@ -22,7 +22,10 @@ static const uint8_t WQ_SEND_CMD[] = {0xA0, 0x00, 0x00, 0x00, 0x00, 0xA0};
 // ============================================================
 // 月水费计量 (费率: 0.35分/L, 月初重置)
 // ============================================================
-#define WATER_RATE_FEN_PER_L   0.35f        // 0.35 分/升
+static float g_water_rate = 0.35f;          // 水费率(分/升), HMI可调
+
+void WQ_SetRate(float rate) { if (rate >= 0) g_water_rate = rate; }
+float WQ_GetRate(void)     { return g_water_rate; }
 static float g_monthly_start_flow = 0.0f;   // 月初累计流量(L)
 
 // ============================================================
@@ -195,7 +198,7 @@ float WQ_GetMonthlyCost(void)
     float monthly_flow = total_flow - g_monthly_start_flow;
     if (monthly_flow < 0)
         monthly_flow = 0;   // 防异常
-    return monthly_flow * WATER_RATE_FEN_PER_L / 100.0f;
+    return monthly_flow * g_water_rate / 100.0f;
 }
 
 // ============================================================

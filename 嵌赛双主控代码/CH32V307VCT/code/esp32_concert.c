@@ -1,13 +1,8 @@
-#include "headfile.h"
+#include"headfile.h"
 #include <stdio.h>
 #include <stdbool.h>
 
-// ============================================================
-// ESP32通信 (USART3: PB10=TX, PB11=RX, 115200bps)
-// 协议: @命令 格式
-// ============================================================
-
-// 全局时间数据
+// ����ȫ��ʱ�����
 typedef struct {
     int year;
     int month;
@@ -17,9 +12,9 @@ typedef struct {
     int sec;
 } TimeType;
 
-TimeType currentTime = {2026, 4, 11, 16, 45, 20};
+TimeType currentTime = {2026, 4, 11, 16, 45, 20};  // ������ʼ��Ϊ���յ���ʱ��
 
-// UART接收缓冲区
+// ������ջ�����
 #define MAX_RX_BUFFER_SIZE 64
 
 typedef struct {
@@ -29,32 +24,27 @@ typedef struct {
 } UART_RxBuffer_t;
 
 UART_RxBuffer_t uart_rx = {0};
-uint16_t receivedData1 = 0;
+uint16_t receivedData1 =0;
 uint8_t adc = 0;
 uint8_t time_flag;
 
-// ============================================================
-// USART3初始化
-// ============================================================
 void UART_ESP32_Init(void)
 {
-    GPIO_InitTypeDef   GPIO_InitStructure = {0};
+    GPIO_InitTypeDef   GPIO_InitStructure={0};
 
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,ENABLE);
 
-    /* USART3 TX-->PB.10  RX-->PB.11 */
+    /* USART3 TX-->B.10  RX-->B.11 */
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;              //����PB10Ϊ�����������
     GPIO_Init(GPIOB, &GPIO_InitStructure);
-
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;        //����PB11Ϊ��������
     GPIO_Init(GPIOB, &GPIO_InitStructure);
-
-    USART_InitTypeDef  USART_InitStructure = {0};
-
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3, ENABLE);
+    USART_InitTypeDef  USART_InitStructure={0};
+  
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3,ENABLE);
 
     USART_InitStructure.USART_BaudRate = 115200;
     USART_InitStructure.USART_WordLength = USART_WordLength_8b;
@@ -64,10 +54,10 @@ void UART_ESP32_Init(void)
     USART_InitStructure.USART_Mode = USART_Mode_Tx | USART_Mode_Rx;
     USART_Init(USART3, &USART_InitStructure);
 
-    USART_ITConfig(USART3, USART_IT_RXNE, ENABLE);
-    USART_Cmd(USART3, ENABLE);
+    USART_ITConfig(USART3,USART_IT_RXNE,ENABLE);
+    USART_Cmd(USART3,ENABLE);
 
-    // NVIC配置
+        // ������� NVIC ����
     NVIC_InitTypeDef NVIC_InitStructure = {0};
     NVIC_InitStructure.NVIC_IRQChannel = USART3_IRQn;
     NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
@@ -76,45 +66,47 @@ void UART_ESP32_Init(void)
     NVIC_Init(&NVIC_InitStructure);
 }
 
-// ============================================================
-// USART3发送
-// ============================================================
+
 void uart_send_esp_char(char che)
 {
     uint8_t che2 = (uint8_t)che;
+    
+    // ���͵����ַ�
     USART_SendData(USART3, che2);
-    while (USART_GetFlagStatus(USART3, USART_FLAG_TXE) == RESET);
+    
+    // �ȴ��������
+    while(USART_GetFlagStatus(USART3, USART_FLAG_TXE) == RESET);
+    
+    return;
 }
 
 void uart_send_esp_string(char* stre)
 {
-    while (*stre != 0 && stre != 0)
+    //��ǰ�ַ�����ַ���ڽ�β ���� �ַ����׵�ַ��Ϊ��
+    while(*stre!=0&&stre!=0)
     {
+        //�����ַ����׵�ַ�е��ַ��������ڷ������֮���׵�ַ����
         uart_send_esp_char(*stre++);
     }
+	return;
 }
 
-// ============================================================
-// 发送配置到ESP32
-// ============================================================
 void send_wifi_to_esp32(const char* ssid, const char* pwd)
 {
     char buffer[128];
     snprintf(buffer, sizeof(buffer), "@WIFI:%s,%s\r\n", ssid, pwd);
     uart_send_esp_string(buffer);
+    printf("���͵�ESP32: %s", buffer);
 }
-
 void send_serve_to_esp32(const char* serve)
 {
     char buffer1[128];
     snprintf(buffer1, sizeof(buffer1), "@SERVE:%s\r\n", serve);
     uart_send_esp_string(buffer1);
+    printf("Send to ESP32: %s", buffer1);
 }
 
-// ============================================================
 // 发送水质+流量数据到ESP32
-// 格式: @WQ:tds,cond,sal,sg,temp,hard,flow_rate,total_flow,cost\r\n
-// ============================================================
 void send_water_quality_to_esp32(void)
 {
     char buf[200];
@@ -133,9 +125,7 @@ void send_water_quality_to_esp32(void)
     uart_send_esp_string(buf);
 }
 
-// ============================================================
 // 发送漏水警报状态到ESP32 (1=漏水, 0=正常)
-// ============================================================
 void send_leak_to_esp32(uint8_t alarm)
 {
     char buf[32];
@@ -143,11 +133,10 @@ void send_leak_to_esp32(uint8_t alarm)
     uart_send_esp_string(buf);
 }
 
-// ============================================================
-// ESP32数据接收处理
-// ============================================================
+
 void esp_received(void)
 {
+    // ֡�����Ŵ���������ֱ�ӷ���
     if (!uart_rx.frameComplete) return;
 
     uart_process_frame((char*)uart_rx.buffer);
@@ -156,73 +145,84 @@ void esp_received(void)
     uart_rx.frameComplete = 0;
 }
 
+
 void uart_process_frame(char* frame)
 {
     char buf1[24];
     int len = strlen(frame);
     if (len < 3) return;
 
-    // 阀门控制: @VALVE:0=断水(PE9高), @VALVE:1=供水(PE9低)
+    // 阀门控制: @VALVE:0=断水, @VALVE:1=供水
     if (strncmp(frame, "@VALVE:", 7) == 0)
     {
-        if (frame[7] == '0') {
-            //GPIO_WriteBit(GPIOE, GPIO_Pin_9, Bit_SET);    // PE9高电平, 断闸
-            GPIO_WriteBit(GPIOA, GPIO_Pin_4, Bit_SET);    // PA4高电平, 断闸
-        } else if (frame[7] == '1') {
-            //GPIO_WriteBit(GPIOE, GPIO_Pin_9, Bit_RESET);  // PE9低电平, 供水
-            GPIO_WriteBit(GPIOA, GPIO_Pin_4, Bit_RESET);  // PA4低电平, 供水
-        }
+        if (frame[7] == '0') GPIO_WriteBit(GPIOA, GPIO_Pin_4, Bit_SET);
+        else GPIO_WriteBit(GPIOA, GPIO_Pin_4, Bit_RESET);
         return;
     }
 
-    // WiFi连接失败
+    // WiFi状态
     if (strncmp(frame, "@1\r\n", 4) == 0)
     {
+        //wifi����ʧ��
+        printf("wifi����ʧ��");
         sprintf(buf1, "va0.val=2");
         tjc_send_string(buf1);
         return;
     }
 
-    // WiFi连接成功
     if (strncmp(frame, "@2\r\n", 4) == 0)
     {
+        //wifi���ӳɹ�
         sprintf(buf1, "va0.val=1");
         tjc_send_string(buf1);
+        printf("wifi���ӳɹ�");
         return;
     }
-
-    // 时间同步帧: @2026-04-11&16:45:20
     char time_str[MAX_RX_BUFFER_SIZE];
-    strncpy(time_str, frame + 1, len - 2);
+    strncpy(time_str, frame + 1, len - 2);  // ȥ�� '@' �� '\n'
     time_str[len - 2] = '\0';
 
+    //printf("���յ�ʱ���ַ���: %s\n", time_str);
+
     int year, month, day, hour, min, sec;
+
+    // �� sscanf ����ʱ���ַ�����ע��&���ָ���
     int ret = sscanf(time_str, "%d-%d-%d&%d:%d:%d",
                      &year, &month, &day, &hour, &min, &sec);
 
     if (ret == 6) {
-        currentTime.year  = year;
+
+        // ���µ�ǰʱ��
+        currentTime.year = year;
         currentTime.month = month;
-        currentTime.day   = day;
-        currentTime.hour  = hour;
-        currentTime.min   = min;
-        currentTime.sec   = sec;
+        currentTime.day = day;
+        currentTime.hour = hour;
+        currentTime.min = min;
+        currentTime.sec = sec;
+        //char str11[64];
+        // ��ʽ���������ַ�������
+        // sprintf(str11, "t9.txt=\"%04d-%02d-%02d  %02d:%02d:%02d\"", year, month, day,hour, min, sec);
+        // tjc_send_string(str11);  // ��ȷ�����Ѿ�ʵ������������������ַ���
+        // ��ʽ��ʱ�����ַ�������
+        // sprintf(str11, "t10.txt=\"%02d:%02d:%02d\"", hour, min, sec);
+        // tjc_send_string(str11);
+    } else {
+        printf("ʱ���ַ�����ʽ����ʧ��\n");
     }
 }
 
-// ============================================================
-// USART3接收中断
-// ============================================================
-void USART3_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
+//�����жϷ������
+__attribute__((interrupt("WCH-Interrupt-fast")))
 void USART3_IRQHandler(void)
 {
+   flag = 0;
     if (USART_GetITStatus(USART3, USART_IT_RXNE) != RESET)
     {
         uint8_t data = USART_ReceiveData(USART3) & 0xFF;
-
+        
         if (uart_rx.index == 0)
         {
-            // 等待帧头 '@'
+            // �ȴ�֡ͷ '@'
             if (data == '@')
             {
                 uart_rx.buffer[0] = data;
@@ -239,12 +239,12 @@ void USART3_IRQHandler(void)
                 if (data == '\n')
                 {
                     uart_rx.buffer[uart_rx.index] = '\0';
-                    uart_rx.frameComplete = 1;
+                    uart_rx.frameComplete = 1;  // ֪ͨ��ѭ������
                 }
             }
             else
             {
-                // 缓冲区溢出, 重置
+                // ���������������
                 uart_rx.index = 0;
                 uart_rx.frameComplete = 0;
             }
@@ -254,14 +254,15 @@ void USART3_IRQHandler(void)
     }
 }
 
-// ============================================================
-// 时间处理
-// ============================================================
+
+
+// �ж����꺯��
 bool IsLeapYear(int year)
 {
     return ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0));
 }
 
+// ��ȡĳ������
 int GetMonthDays(int year, int month)
 {
     static const int days_in_month[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
@@ -269,6 +270,7 @@ int GetMonthDays(int year, int month)
     return days_in_month[month - 1];
 }
 
+// 1��ʱ���������
 void TimeTick_1s(void)
 {
     currentTime.sec++;
@@ -278,14 +280,14 @@ void TimeTick_1s(void)
         if (currentTime.min >= 60) {
             currentTime.min = 0;
             currentTime.hour++;
-            if (currentTime.hour >= 24) {
+            if(currentTime.hour >= 24){
                 currentTime.hour = 0;
                 currentTime.day++;
                 int mdays = GetMonthDays(currentTime.year, currentTime.month);
-                if (currentTime.day > mdays) {
+                if(currentTime.day > mdays){
                     currentTime.day = 1;
                     currentTime.month++;
-                    if (currentTime.month > 12) {
+                    if(currentTime.month > 12){
                         currentTime.month = 1;
                         currentTime.year++;
                     }
@@ -295,38 +297,44 @@ void TimeTick_1s(void)
     }
 }
 
+//��ʾʱ��
 void lcd_time(void)
 {
-    if (time_flag)
+    if(time_flag)
     {
-        currentTime.sec++;
-        if (currentTime.sec >= 60) {
-            currentTime.sec = 0;
-            currentTime.min++;
-            if (currentTime.min >= 60) {
-                currentTime.min = 0;
-                currentTime.hour++;
-                if (currentTime.hour >= 24) {
-                    currentTime.hour = 0;
-                    currentTime.day++;
-                    int mdays = GetMonthDays(currentTime.year, currentTime.month);
-                    if (currentTime.day > mdays) {
-                        currentTime.day = 1;
-                        currentTime.month++;
-                        if (currentTime.month > 12) {
-                            currentTime.month = 1;
-                            currentTime.year++;
-                        }
+    currentTime.sec++;
+    if (currentTime.sec >= 60) {
+        currentTime.sec = 0;
+        currentTime.min++;
+        if (currentTime.min >= 60) {
+            currentTime.min = 0;
+            currentTime.hour++;
+            if(currentTime.hour >= 24){
+                currentTime.hour = 0;
+                currentTime.day++;
+                int mdays = GetMonthDays(currentTime.year, currentTime.month);
+                if(currentTime.day > mdays){
+                    currentTime.day = 1;
+                    currentTime.month++;
+                    if(currentTime.month > 12){
+                        currentTime.month = 1;
+                        currentTime.year++;
                     }
                 }
             }
         }
-        // 刷新HMI时间显示
-        char buf[64];
-        sprintf(buf, "t9.txt=\"%04d-%02d-%02d  %02d:%02d:%02d\"",
-                currentTime.year, currentTime.month, currentTime.day,
-                currentTime.hour, currentTime.min, currentTime.sec);
-        tjc_send_string(buf);
-        time_flag = 0;
+      }
+    // ˢ����ʾ
+    char buf[64];
+    sprintf(buf, "t9.txt=\"%04d-%02d-%02d  %02d:%02d:%02d\"", currentTime.year, currentTime.month, currentTime.day, currentTime.hour, currentTime.min, currentTime.sec);
+    tjc_send_string(buf);
+      time_flag =0;
     }
+
+
 }
+
+
+
+
+

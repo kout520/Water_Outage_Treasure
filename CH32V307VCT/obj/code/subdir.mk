@@ -13,13 +13,9 @@ C_SRCS += \
 ../code/pwm.c \
 ../code/timer.c \
 ../code/tjc_usart_hmi.c \
-<<<<<<< HEAD
 ../code/water_quality.c \
 ../code/water_speed.c \
 ../code/zigbee.c 
-=======
-../code/water_speed.c 
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
 
 C_DEPS += \
 ./code/adc_going.d \
@@ -30,13 +26,9 @@ C_DEPS += \
 ./code/pwm.d \
 ./code/timer.d \
 ./code/tjc_usart_hmi.d \
-<<<<<<< HEAD
 ./code/water_quality.d \
 ./code/water_speed.d \
 ./code/zigbee.d 
-=======
-./code/water_speed.d 
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
 
 OBJS += \
 ./code/adc_going.o \
@@ -47,13 +39,9 @@ OBJS += \
 ./code/pwm.o \
 ./code/timer.o \
 ./code/tjc_usart_hmi.o \
-<<<<<<< HEAD
 ./code/water_quality.o \
 ./code/water_speed.o \
 ./code/zigbee.o 
-=======
-./code/water_speed.o 
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
 
 DIR_OBJS += \
 ./code/*.o \

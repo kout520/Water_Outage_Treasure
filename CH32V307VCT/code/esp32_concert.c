@@ -1,21 +1,8 @@
-<<<<<<< HEAD
-#include "headfile.h"
-#include <stdio.h>
-#include <stdbool.h>
-
-// ============================================================
-// ESP32é€šä¿¡ (USART3: PB10=TX, PB11=RX, 115200bps)
-// åè®®: @å‘½ä»¤ æ ¼å¼
-// ============================================================
-
-// å…¨å±€æ—¶é—´æ•°æ®
-=======
 #include"headfile.h"
 #include <stdio.h>
 #include <stdbool.h>
 
-// ¶¨ÒåÈ«¾ÖÊ±¼ä±äÁ¿
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
+// ï¿½ï¿½ï¿½ï¿½È«ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½
 typedef struct {
     int year;
     int month;
@@ -25,15 +12,9 @@ typedef struct {
     int sec;
 } TimeType;
 
-<<<<<<< HEAD
-TimeType currentTime = {2026, 4, 11, 16, 45, 20};
+TimeType currentTime = {2026, 4, 11, 16, 45, 20};  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½Îªï¿½ï¿½ï¿½Õµï¿½ï¿½ï¿½Ê±ï¿½ï¿½
 
-// UARTæ¥æ”¶ç¼“å†²åŒº
-=======
-TimeType currentTime = {2026, 4, 11, 16, 45, 20};  // Àı£º³õÊ¼»¯Îª½ÓÊÕµ½µÄÊ±¼ä
-
-// ¶¨Òå½ÓÊÕ»º³åÇø
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ»ï¿½ï¿½ï¿½ï¿½ï¿½
 #define MAX_RX_BUFFER_SIZE 64
 
 typedef struct {
@@ -43,34 +24,6 @@ typedef struct {
 } UART_RxBuffer_t;
 
 UART_RxBuffer_t uart_rx = {0};
-<<<<<<< HEAD
-uint16_t receivedData1 = 0;
-uint8_t adc = 0;
-uint8_t time_flag;
-
-// ============================================================
-// USART3åˆå§‹åŒ–
-// ============================================================
-void UART_ESP32_Init(void)
-{
-    GPIO_InitTypeDef   GPIO_InitStructure = {0};
-
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
-
-    /* USART3 TX-->PB.10  RX-->PB.11 */
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-    GPIO_Init(GPIOB, &GPIO_InitStructure);
-
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
-    GPIO_Init(GPIOB, &GPIO_InitStructure);
-
-    USART_InitTypeDef  USART_InitStructure = {0};
-
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3, ENABLE);
-=======
 uint16_t receivedData1 =0;
 uint8_t adc = 0;
 uint8_t time_flag;
@@ -84,15 +37,14 @@ void UART_ESP32_Init(void)
     /* USART3 TX-->B.10  RX-->B.11 */
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;              //ÉèÖÃPB10Îª¸´ÓÃÍÆÍìÊä³ö
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;              //ï¿½ï¿½ï¿½ï¿½PB10Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     GPIO_Init(GPIOB, &GPIO_InitStructure);
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;        //ÉèÖÃPB11Îª¸¡¿ÕÊäÈë
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;        //ï¿½ï¿½ï¿½ï¿½PB11Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     GPIO_Init(GPIOB, &GPIO_InitStructure);
     USART_InitTypeDef  USART_InitStructure={0};
   
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3,ENABLE);
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
 
     USART_InitStructure.USART_BaudRate = 115200;
     USART_InitStructure.USART_WordLength = USART_WordLength_8b;
@@ -102,17 +54,10 @@ void UART_ESP32_Init(void)
     USART_InitStructure.USART_Mode = USART_Mode_Tx | USART_Mode_Rx;
     USART_Init(USART3, &USART_InitStructure);
 
-<<<<<<< HEAD
-    USART_ITConfig(USART3, USART_IT_RXNE, ENABLE);
-    USART_Cmd(USART3, ENABLE);
-
-    // NVICé…ç½®
-=======
     USART_ITConfig(USART3,USART_IT_RXNE,ENABLE);
     USART_Cmd(USART3,ENABLE);
 
-        // ²¹ÉÏÕâ¶Î NVIC ÅäÖÃ
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ NVIC ï¿½ï¿½ï¿½ï¿½
     NVIC_InitTypeDef NVIC_InitStructure = {0};
     NVIC_InitStructure.NVIC_IRQChannel = USART3_IRQn;
     NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
@@ -121,78 +66,47 @@ void UART_ESP32_Init(void)
     NVIC_Init(&NVIC_InitStructure);
 }
 
-<<<<<<< HEAD
-// ============================================================
-// USART3å‘é€
-// ============================================================
-void uart_send_esp_char(char che)
-{
-    uint8_t che2 = (uint8_t)che;
-    USART_SendData(USART3, che2);
-    while (USART_GetFlagStatus(USART3, USART_FLAG_TXE) == RESET);
-=======
 
 void uart_send_esp_char(char che)
 {
     uint8_t che2 = (uint8_t)che;
     
-    // ·¢ËÍµ¥¸ö×Ö·û
+    // ï¿½ï¿½ï¿½Íµï¿½ï¿½ï¿½ï¿½Ö·ï¿½
     USART_SendData(USART3, che2);
     
-    // µÈ´ı·¢ËÍÍê³É
+    // ï¿½È´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     while(USART_GetFlagStatus(USART3, USART_FLAG_TXE) == RESET);
     
     return;
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
 }
 
 void uart_send_esp_string(char* stre)
 {
-<<<<<<< HEAD
-    while (*stre != 0 && stre != 0)
-    {
-        uart_send_esp_char(*stre++);
-    }
-}
-
-// ============================================================
-// å‘é€é…ç½®åˆ°ESP32
-// ============================================================
-=======
-    //µ±Ç°×Ö·û´®µØÖ·²»ÔÚ½áÎ² ²¢ÇÒ ×Ö·û´®Ê×µØÖ·²»Îª¿Õ
+    //ï¿½ï¿½Ç°ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½Ú½ï¿½Î² ï¿½ï¿½ï¿½ï¿½ ï¿½Ö·ï¿½ï¿½ï¿½ï¿½×µï¿½Ö·ï¿½ï¿½Îªï¿½ï¿½
     while(*stre!=0&&stre!=0)
     {
-        //·¢ËÍ×Ö·û´®Ê×µØÖ·ÖĞµÄ×Ö·û£¬²¢ÇÒÔÚ·¢ËÍÍê³ÉÖ®ºóÊ×µØÖ·×ÔÔö
+        //ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½×µï¿½Ö·ï¿½Ğµï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö®ï¿½ï¿½ï¿½×µï¿½Ö·ï¿½ï¿½ï¿½ï¿½
         uart_send_esp_char(*stre++);
     }
 	return;
 }
 
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
 void send_wifi_to_esp32(const char* ssid, const char* pwd)
 {
     char buffer[128];
     snprintf(buffer, sizeof(buffer), "@WIFI:%s,%s\r\n", ssid, pwd);
     uart_send_esp_string(buffer);
-<<<<<<< HEAD
+    printf("ï¿½ï¿½ï¿½Íµï¿½ESP32: %s", buffer);
 }
-
-=======
-    printf("·¢ËÍµ½ESP32: %s", buffer);
-}
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
 void send_serve_to_esp32(const char* serve)
 {
     char buffer1[128];
     snprintf(buffer1, sizeof(buffer1), "@SERVE:%s\r\n", serve);
     uart_send_esp_string(buffer1);
-<<<<<<< HEAD
+    printf("Send to ESP32: %s", buffer1);
 }
 
-// ============================================================
 // å‘é€æ°´è´¨+æµé‡æ•°æ®åˆ°ESP32
-// æ ¼å¼: @WQ:tds,cond,sal,sg,temp,hard,flow_rate,total_flow,cost\r\n
-// ============================================================
 void send_water_quality_to_esp32(void)
 {
     char buf[200];
@@ -211,9 +125,7 @@ void send_water_quality_to_esp32(void)
     uart_send_esp_string(buf);
 }
 
-// ============================================================
 // å‘é€æ¼æ°´è­¦æŠ¥çŠ¶æ€åˆ°ESP32 (1=æ¼æ°´, 0=æ­£å¸¸)
-// ============================================================
 void send_leak_to_esp32(uint8_t alarm)
 {
     char buf[32];
@@ -221,20 +133,10 @@ void send_leak_to_esp32(uint8_t alarm)
     uart_send_esp_string(buf);
 }
 
-// ============================================================
-// ESP32æ•°æ®æ¥æ”¶å¤„ç†
-// ============================================================
-void esp_received(void)
-{
-=======
-    printf("·¢ËÍµ½ESP32: %s", buffer1);
-}
-
 
 void esp_received(void)
 {
-    // Ö¡ÍêÕû²Å´¦Àí£¬·ñÔòÖ±½Ó·µ»Ø
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
+    // Ö¡ï¿½ï¿½ï¿½ï¿½ï¿½Å´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½Ó·ï¿½ï¿½ï¿½
     if (!uart_rx.frameComplete) return;
 
     uart_process_frame((char*)uart_rx.buffer);
@@ -243,113 +145,54 @@ void esp_received(void)
     uart_rx.frameComplete = 0;
 }
 
-<<<<<<< HEAD
-=======
 
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
 void uart_process_frame(char* frame)
 {
     char buf1[24];
     int len = strlen(frame);
-<<<<<<< HEAD
     if (len < 3) return;
 
-    // é˜€é—¨æ§åˆ¶: @VALVE:0=æ–­æ°´(PE9é«˜), @VALVE:1=ä¾›æ°´(PE9ä½)
+    // é˜€é—¨æ§åˆ¶: @VALVE:0=æ–­æ°´, @VALVE:1=ä¾›æ°´
     if (strncmp(frame, "@VALVE:", 7) == 0)
     {
-        if (frame[7] == '0') {
-            //GPIO_WriteBit(GPIOE, GPIO_Pin_9, Bit_SET);    // PE9é«˜ç”µå¹³, æ–­é—¸
-            GPIO_WriteBit(GPIOA, GPIO_Pin_4, Bit_SET);    // PA4é«˜ç”µå¹³, æ–­é—¸
-        } else if (frame[7] == '1') {
-            //GPIO_WriteBit(GPIOE, GPIO_Pin_9, Bit_RESET);  // PE9ä½ç”µå¹³, ä¾›æ°´
-            GPIO_WriteBit(GPIOA, GPIO_Pin_4, Bit_RESET);  // PA4ä½ç”µå¹³, ä¾›æ°´
-        }
+        if (frame[7] == '0') GPIO_WriteBit(GPIOA, GPIO_Pin_4, Bit_SET);
+        else GPIO_WriteBit(GPIOA, GPIO_Pin_4, Bit_RESET);
         return;
     }
 
-    // WiFiè¿æ¥å¤±è´¥
+    // WiFiçŠ¶æ€
     if (strncmp(frame, "@1\r\n", 4) == 0)
     {
-=======
-    if (len < 3 ) {
-
-        return;
-    }
-    // ÅĞ¶ÏÌØÊâÖ¸ÁîÖ¡
-    if (strncmp(frame, "@1\r\n", 4) == 0)
-    {
-        //wifiÁ¬½ÓÊ§°Ü
-        printf("wifiÁ¬½ÓÊ§°Ü");
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
+        //wifiï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½
+        printf("wifiï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½");
         sprintf(buf1, "va0.val=2");
         tjc_send_string(buf1);
         return;
     }
 
-<<<<<<< HEAD
-    // WiFiè¿æ¥æˆåŠŸ
     if (strncmp(frame, "@2\r\n", 4) == 0)
     {
+        //wifiï¿½ï¿½ï¿½Ó³É¹ï¿½
         sprintf(buf1, "va0.val=1");
         tjc_send_string(buf1);
-        return;
-    }
-
-    // æ—¶é—´åŒæ­¥å¸§: @2026-04-11&16:45:20
-    char time_str[MAX_RX_BUFFER_SIZE];
-    strncpy(time_str, frame + 1, len - 2);
-    time_str[len - 2] = '\0';
-
-    int year, month, day, hour, min, sec;
-=======
-    if (strncmp(frame, "@2\r\n", 4) == 0)
-    {
-        //wifiÁ¬½Ó³É¹¦
-        sprintf(buf1, "va0.val=1");
-        tjc_send_string(buf1);
-        printf("wifiÁ¬½Ó³É¹¦");
+        printf("wifiï¿½ï¿½ï¿½Ó³É¹ï¿½");
         return;
     }
     char time_str[MAX_RX_BUFFER_SIZE];
-    strncpy(time_str, frame + 1, len - 2);  // È¥µô '@' ºÍ '\n'
+    strncpy(time_str, frame + 1, len - 2);  // È¥ï¿½ï¿½ '@' ï¿½ï¿½ '\n'
     time_str[len - 2] = '\0';
 
-    //printf("½ÓÊÕµ½Ê±¼ä×Ö·û´®: %s\n", time_str);
+    //printf("ï¿½ï¿½ï¿½Õµï¿½Ê±ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½: %s\n", time_str);
 
     int year, month, day, hour, min, sec;
 
-    // ÓÃ sscanf ½âÎöÊ±¼ä×Ö·û´®£¬×¢Òâ&×ö·Ö¸ô·û
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
+    // ï¿½ï¿½ sscanf ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½×¢ï¿½ï¿½&ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½
     int ret = sscanf(time_str, "%d-%d-%d&%d:%d:%d",
                      &year, &month, &day, &hour, &min, &sec);
 
     if (ret == 6) {
-<<<<<<< HEAD
-        currentTime.year  = year;
-        currentTime.month = month;
-        currentTime.day   = day;
-        currentTime.hour  = hour;
-        currentTime.min   = min;
-        currentTime.sec   = sec;
-    }
-}
 
-// ============================================================
-// USART3æ¥æ”¶ä¸­æ–­
-// ============================================================
-void USART3_IRQHandler(void) __attribute__((interrupt("WCH-Interrupt-fast")));
-void USART3_IRQHandler(void)
-{
-    if (USART_GetITStatus(USART3, USART_IT_RXNE) != RESET)
-    {
-        uint8_t data = USART_ReceiveData(USART3) & 0xFF;
-
-        if (uart_rx.index == 0)
-        {
-            // ç­‰å¾…å¸§å¤´ '@'
-=======
-
-        // ¸üĞÂµ±Ç°Ê±¼ä
+        // ï¿½ï¿½ï¿½Âµï¿½Ç°Ê±ï¿½ï¿½
         currentTime.year = year;
         currentTime.month = month;
         currentTime.day = day;
@@ -357,18 +200,18 @@ void USART3_IRQHandler(void)
         currentTime.min = min;
         currentTime.sec = sec;
         //char str11[64];
-        // ¸ñÊ½»¯ÄêÔÂÈÕ×Ö·û´®·¢ËÍ
+        // ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         // sprintf(str11, "t9.txt=\"%04d-%02d-%02d  %02d:%02d:%02d\"", year, month, day,hour, min, sec);
-        // tjc_send_string(str11);  // ÇëÈ·ÈÏÄãÒÑ¾­ÊµÏÖÕâ¸öº¯Êı£¬¸ºÔğ·¢ËÍ×Ö·û´®
-        // ¸ñÊ½»¯Ê±·ÖÃë×Ö·û´®·¢ËÍ
+        // tjc_send_string(str11);  // ï¿½ï¿½È·ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¾ï¿½Êµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½
+        // ï¿½ï¿½Ê½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         // sprintf(str11, "t10.txt=\"%02d:%02d:%02d\"", hour, min, sec);
         // tjc_send_string(str11);
     } else {
-        printf("Ê±¼ä×Ö·û´®¸ñÊ½½âÎöÊ§°Ü\n");
+        printf("Ê±ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½\n");
     }
 }
 
-//´®¿ÚÖĞ¶Ï·şÎñ³ÌĞò
+//ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¶Ï·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 __attribute__((interrupt("WCH-Interrupt-fast")))
 void USART3_IRQHandler(void)
 {
@@ -379,8 +222,7 @@ void USART3_IRQHandler(void)
         
         if (uart_rx.index == 0)
         {
-            // µÈ´ıÖ¡Í· '@'
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
+            // ï¿½È´ï¿½Ö¡Í· '@'
             if (data == '@')
             {
                 uart_rx.buffer[0] = data;
@@ -397,20 +239,12 @@ void USART3_IRQHandler(void)
                 if (data == '\n')
                 {
                     uart_rx.buffer[uart_rx.index] = '\0';
-<<<<<<< HEAD
-                    uart_rx.frameComplete = 1;
-=======
-                    uart_rx.frameComplete = 1;  // Í¨ÖªÖ÷Ñ­»·´¦Àí
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
+                    uart_rx.frameComplete = 1;  // Í¨Öªï¿½ï¿½Ñ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 }
             }
             else
             {
-<<<<<<< HEAD
-                // ç¼“å†²åŒºæº¢å‡º, é‡ç½®
-=======
-                // »º³åÇøÒç³ö£¬ÖØÖÃ
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 uart_rx.index = 0;
                 uart_rx.frameComplete = 0;
             }
@@ -420,24 +254,15 @@ void USART3_IRQHandler(void)
     }
 }
 
-<<<<<<< HEAD
-// ============================================================
-// æ—¶é—´å¤„ç†
-// ============================================================
-=======
 
 
-// ÅĞ¶ÏÈòÄêº¯Êı
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
+// ï¿½Ğ¶ï¿½ï¿½ï¿½ï¿½êº¯ï¿½ï¿½
 bool IsLeapYear(int year)
 {
     return ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0));
 }
 
-<<<<<<< HEAD
-=======
-// »ñÈ¡Ä³ÔÂÌìÊı
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
+// ï¿½ï¿½È¡Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 int GetMonthDays(int year, int month)
 {
     static const int days_in_month[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
@@ -445,10 +270,7 @@ int GetMonthDays(int year, int month)
     return days_in_month[month - 1];
 }
 
-<<<<<<< HEAD
-=======
-// 1ÃëÊ±¼äµİÔöº¯Êı
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
+// 1ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 void TimeTick_1s(void)
 {
     currentTime.sec++;
@@ -458,16 +280,6 @@ void TimeTick_1s(void)
         if (currentTime.min >= 60) {
             currentTime.min = 0;
             currentTime.hour++;
-<<<<<<< HEAD
-            if (currentTime.hour >= 24) {
-                currentTime.hour = 0;
-                currentTime.day++;
-                int mdays = GetMonthDays(currentTime.year, currentTime.month);
-                if (currentTime.day > mdays) {
-                    currentTime.day = 1;
-                    currentTime.month++;
-                    if (currentTime.month > 12) {
-=======
             if(currentTime.hour >= 24){
                 currentTime.hour = 0;
                 currentTime.day++;
@@ -476,7 +288,6 @@ void TimeTick_1s(void)
                     currentTime.day = 1;
                     currentTime.month++;
                     if(currentTime.month > 12){
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
                         currentTime.month = 1;
                         currentTime.year++;
                     }
@@ -486,31 +297,7 @@ void TimeTick_1s(void)
     }
 }
 
-<<<<<<< HEAD
-void lcd_time(void)
-{
-    if (time_flag)
-    {
-        currentTime.sec++;
-        if (currentTime.sec >= 60) {
-            currentTime.sec = 0;
-            currentTime.min++;
-            if (currentTime.min >= 60) {
-                currentTime.min = 0;
-                currentTime.hour++;
-                if (currentTime.hour >= 24) {
-                    currentTime.hour = 0;
-                    currentTime.day++;
-                    int mdays = GetMonthDays(currentTime.year, currentTime.month);
-                    if (currentTime.day > mdays) {
-                        currentTime.day = 1;
-                        currentTime.month++;
-                        if (currentTime.month > 12) {
-                            currentTime.month = 1;
-                            currentTime.year++;
-                        }
-=======
-//ÏÔÊ¾Ê±¼ä
+//ï¿½ï¿½Ê¾Ê±ï¿½ï¿½
 void lcd_time(void)
 {
     if(time_flag)
@@ -532,24 +319,12 @@ void lcd_time(void)
                     if(currentTime.month > 12){
                         currentTime.month = 1;
                         currentTime.year++;
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb
                     }
                 }
             }
         }
-<<<<<<< HEAD
-        // åˆ·æ–°HMIæ—¶é—´æ˜¾ç¤º
-        char buf[64];
-        sprintf(buf, "t9.txt=\"%04d-%02d-%02d  %02d:%02d:%02d\"",
-                currentTime.year, currentTime.month, currentTime.day,
-                currentTime.hour, currentTime.min, currentTime.sec);
-        tjc_send_string(buf);
-        time_flag = 0;
-    }
-}
-=======
       }
-    // Ë¢ĞÂÏÔÊ¾
+    // Ë¢ï¿½ï¿½ï¿½ï¿½Ê¾
     char buf[64];
     sprintf(buf, "t9.txt=\"%04d-%02d-%02d  %02d:%02d:%02d\"", currentTime.year, currentTime.month, currentTime.day, currentTime.hour, currentTime.min, currentTime.sec);
     tjc_send_string(buf);
@@ -563,4 +338,3 @@ void lcd_time(void)
 
 
 
->>>>>>> c63018c7a2f4c111caab0dc82632fa181bd609cb

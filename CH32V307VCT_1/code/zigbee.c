@@ -1,5 +1,7 @@
 #include "headfile.h"
 
+extern float g_zigbee_level;  // 来自main.c的水位值
+
 // ============================================================
 // Zigbee模块 (UART4: PC10=TX, PC11=RX)
 // 与主CH32进行无线通信
@@ -63,7 +65,7 @@ void Zigbee_SendSensorData(void)
 {
     char buf[120];
     snprintf(buf, sizeof(buf), "@LEVEL:%.2f,%.1f,%.1f,%d\r\n",
-             HC_SR04_GetWaterLevel_m(),
+             g_zigbee_level,
              Humidity_GetPercent(),
              Temperature_GetCelsius(),
              Pump_GetSpeed());

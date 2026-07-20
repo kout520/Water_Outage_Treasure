@@ -7,10 +7,7 @@
 	打印到屏幕串口
 */
 
-// 定义WiFi信息缓冲区
-#define WIFI_SSID_MAX_LEN 32
-#define WIFI_PWD_MAX_LEN 64
-#define SERVE_MAX_LEN 64
+
 
 #define TJC_UART huart1
 #define TJC_UART_INS USART1
@@ -39,6 +36,6 @@ void HMI_task();
 
 extern uint8_t RxBuffer[1];
 extern uint32_t msTicks;
-extern char serve_num[SERVE_MAX_LEN];
+
 
 #endif

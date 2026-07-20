@@ -96,27 +96,35 @@ void Zigbee_ParseCommand(char* cmd)
 {
     if (strncmp(cmd, "@LEVEL:", 7) == 0)
     {
-        // 解析: @LEVEL:4.32,65.0,26.5,50
-        char* ptr = cmd + 7;
-        float level = 0, humidity = 0, temp = 25;
+        // 手动解析: @LEVEL:24.7,65.0,26.5,50
+        float v[3] = {0, 0, 25};
         int pump = 0;
-
-        level    = (float)atof(ptr);
-        ptr = strchr(ptr, ','); if (ptr) {
-            humidity = (float)atof(ptr + 1);
-            ptr = strchr(ptr + 1, ','); if (ptr) {
-                temp = (float)atof(ptr + 1);
-                ptr = strchr(ptr + 1, ','); if (ptr) {
-                    pump = atoi(ptr + 1);
-                }
+        char* p = cmd + 7;
+        int i;
+        for (i = 0; i < 3; i++) {
+            // 找整数部分
+            int ipart = 0, fpart = 0, fdiv = 1;
+            while (*p >= '0' && *p <= '9') { ipart = ipart * 10 + (*p - '0'); p++; }
+            if (*p == '.') {
+                p++;
+                while (*p >= '0' && *p <= '9') { fpart = fpart * 10 + (*p - '0'); fdiv *= 10; p++; }
             }
+            v[i] = (float)ipart + (float)fpart / (float)fdiv;
+            if (*p == ',') p++; else break;
         }
+        // 第4个是整数
+        while (*p >= '0' && *p <= '9') { pump = pump * 10 + (*p - '0'); p++; }
 
-        g_tower_water_level  = level;
-        g_tower_humidity     = humidity;
-        g_tower_temperature  = temp;
+        g_tower_water_level  = v[0];
+        g_tower_humidity     = v[1];
+        g_tower_temperature  = v[2];
         g_tower_pump_speed   = pump;
         g_tower_data_updated = 1;
+
+        // static int rx_cnt = 0;
+        // char tmp[24];
+        // sprintf(tmp, "t14.txt=\"RX:%d\"", ++rx_cnt);
+        // tjc_send_string(tmp);
     }
 }
 

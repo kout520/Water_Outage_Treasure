@@ -9,6 +9,8 @@
 #include "headfile.h"
 #include "hc_sr04.h"
 
+float g_zigbee_level = 0;  // 供zigbee.c发送的水位值
+
 int main(void)
 {
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
@@ -48,6 +50,7 @@ int main(void)
             if (d > 0) {
                 float level = TANK_DEPTH - d;
                 g_dist = (level < 0) ? 0 : level;
+                g_zigbee_level = g_dist;
             }
         }
 
@@ -78,9 +81,9 @@ int main(void)
             OLED_ShowStr(0, 6, (uint8_t*)buf, 1);
         }
 
-        // Zigbee 5秒发送
+        // Zigbee 2秒发送
         static uint32_t last_zig = 0;
-        if (timer_cnt - last_zig >= 5000) {
+        if (timer_cnt - last_zig >= 2000) {
             last_zig = timer_cnt;
             Zigbee_SendSensorData();
         }

@@ -35,7 +35,6 @@ void TIM2_Init(u16 arr, u16 psc)
     TIM_Cmd(TIM2, ENABLE);
 }
 
-// 1ms定时中断
 void TIM2_IRQHandler(void)
 {
     if (TIM_GetITStatus(TIM2, TIM_IT_Update) != RESET)
@@ -45,17 +44,14 @@ void TIM2_IRQHandler(void)
 
         TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
 
-        // 1000ms时间片: 发送水质检测请求
         if (timer_cnt % 1000 == 0)
         {
             WQ_SendRequest();
         }
 
-        // 1000ms时间片: 超时无脉冲则显示0流量
         if (timer_cnt % 1000 == 0)
         {
             time_flag = 1;
-
             if (++water_speedflage == 1)
             {
                 sprintf(test1, "t10.txt=\"0L/min\"");

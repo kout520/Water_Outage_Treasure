@@ -44,6 +44,8 @@ void WQ_UpdateDisplay(void);
 void WQ_Task(void);
 void WQ_ResetMonthlyCost(void);
 float WQ_GetMonthlyCost(void);
+void WQ_SetRate(float rate);
+float WQ_GetRate(void);
 
 // 辅助获取浮点值
 static inline float WQ_GetTDS(void)         { return (float)g_water_quality.tds; }
